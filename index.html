@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VendeIA - Crea mejores anuncios</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #171717;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 18px 30px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #00a884;
+    }
+
+    .hero {
+      max-width: 900px;
+      margin: 60px auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #666;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto 80px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #dcdcdc;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #00a884;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #008f70;
+    }
+
+    .result {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .result h2 {
+      margin-bottom: 20px;
+    }
+
+    .result-box {
+      background: #f7f7f7;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 15px;
+    }
+
+    .result-box h3 {
+      margin-bottom: 8px;
+    }
+
+    .result-box p {
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .copy {
+      width: auto;
+      padding: 9px 15px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Vende<span>IA</span></div>
+</header>
+
+<section class="hero">
+  <h1>Crea mejores anuncios en segundos</h1>
+
+  <p>
+    Introduce los datos de tu producto y prepara un anuncio
+    más claro y atractivo para vender online.
+  </p>
+</section>
+
+<div class="container">
+
+  <div class="card">
+
+    <label for="producto">¿Qué estás vendiendo?</label>
+    <input
+      id="producto"
+      type="text"
+      placeholder="Ej: Nike Air Max 270"
+    >
+
+    <label for="categoria">Categoría</label>
+    <select id="categoria">
+      <option>Selecciona una categoría</option>
+      <option>Moda</option>
+      <option>Electrónica</option>
+      <option>Hogar</option>
+      <option>Videojuegos</option>
+      <option>Deportes</option>
+      <option>Coleccionismo</option>
+      <option>Otros</option>
+    </select>
+
+    <label for="marca">Marca</label>
+    <input
+      id="marca"
+      type="text"
+      placeholder="Ej: Nike"
+    >
+
+    <label for="estado">Estado</label>
+    <select id="estado">
+      <option>Nuevo</option>
+      <option>Como nuevo</option>
+      <option>Buen estado</option>
+      <option>Usado</option>
+      <option>Con defectos</option>
+    </select>
+
+    <label for="precio">Precio que quieres pedir (€)</label>
+    <input
+      id="precio"
+      type="number"
+      placeholder="Ej: 70"
+    >
+
+    <label for="detalles">Detalles adicionales</label>
+    <textarea
+      id="detalles"
+      placeholder="Talla, color, accesorios, tiempo de uso, defectos, etc."
+    ></textarea>
+
+    <button onclick="generarAnuncio()">
+      Generar anuncio
+    </button>
+
+    <div class="result" id="resultado">
+
+      <h2>Tu anuncio</h2>
+
+      <div class="result-box">
+        <h3>Título</h3>
+        <p id="titulo"></p>
+        <button class="copy" onclick="copiar('titulo')">
+          Copiar
+        </button>
+      </div>
+
+      <div class="result-box">
+        <h3>Descripción</h3>
+        <p id="descripcion"></p>
+        <button class="copy" onclick="copiar('descripcion')">
+          Copiar
+        </button>
+      </div>
+
+      <div class="result-box">
+        <h3>Palabras clave</h3>
+        <p id="palabras"></p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  VendeIA · Herramienta experimental para vendedores
+</footer>
+
+<script>
+
+function generarAnuncio() {
+
+  const producto =
+    document.getElementById("producto").value;
+
+  const categoria =
+    document.getElementById("categoria").value;
+
+  const marca =
+    document.getElementById("marca").value;
+
+  const estado =
+    document.getElementById("estado").value;
+
+  const precio =
+    document.getElementById("precio").value;
+
+  const detalles =
+    document.getElementById("detalles").value;
+
+  if (!producto) {
+    alert("Introduce primero qué estás vendiendo.");
+    return;
+  }
+
+  const titulo =
+    `${marca ? marca + " " : ""}${producto} - ${estado}`;
+
+  const descripcion =
+`Vendo ${marca ? marca + " " : ""}${producto}.
+
+Estado: ${estado}.
+Precio: ${precio ? precio + " €" : "Consultar"}.
+
+${detalles}
+
+Si estás interesado, escríbeme y te puedo proporcionar más información.`;
+
+  const palabras =
+    `${producto}, ${marca}, ${categoria}, ${estado}, segunda mano, venta`;
+
+  document.getElementById("titulo").textContent = titulo;
+  document.getElementById("descripcion").textContent = descripcion;
+  document.getElementById("palabras").textContent = palabras;
+
+  document.getElementById("resultado").style.display = "block";
+}
+
+function copiar(id) {
+
+  const texto =
+    document.getElementById(id).textContent;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("Texto copiado.");
+}
+
+</script>
+
+</body>
+</html>
