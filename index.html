@@ -2,528 +2,751 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>VendeIA - Crea mejores anuncios</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <meta
     name="description"
-    content="VendeIA crea anuncios optimizados para vender tus productos de forma rápida y profesional."
+    content="VendeIA transforma la información de tus productos en anuncios profesionales para marketplaces."
   >
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <meta
+    name="theme-color"
+    content="#0b0f19"
+  >
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-      min-height: 100vh;
-    }
+  <title>VendeIA — Tu asistente inteligente de ventas</title>
 
-    /* HEADER */
+  <!--
+    Hoja de estilos principal.
+    La crearemos en el siguiente paso.
+  -->
+  <link rel="stylesheet" href="/css/styles.css">
 
-    header {
-      background: linear-gradient(135deg, #5b21b6, #7c3aed);
-      color: white;
-      padding: 18px 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-    }
-
-    .header-content {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .logo span {
-      color: #ddd6fe;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 7px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-
-    /* HERO */
-
-    .hero {
-      text-align: center;
-      padding: 55px 20px 35px;
-      max-width: 850px;
-      margin: auto;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      line-height: 1.1;
-      margin-bottom: 16px;
-      color: #111827;
-    }
-
-    .hero h1 span {
-      color: #7c3aed;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: #64748b;
-      line-height: 1.6;
-    }
-
-    /* MAIN */
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 10px 20px 60px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(15,23,42,0.07);
-      border: 1px solid #e5e7eb;
-    }
-
-    .card h2 {
-      font-size: 21px;
-      margin-bottom: 7px;
-    }
-
-    .card-subtitle {
-      color: #64748b;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
-
-    /* FORM */
-
-    .form-group {
-      margin-bottom: 17px;
-    }
-
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 7px;
-      color: #374151;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 12px 13px;
-      font-size: 15px;
-      background: #fff;
-      color: #111827;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #7c3aed;
-      box-shadow: 0 0 0 3px rgba(124,58,237,0.10);
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .generate-button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      font-size: 16px;
-      font-weight: 800;
-      color: white;
-      cursor: pointer;
-      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
-      box-shadow: 0 8px 20px rgba(109,40,217,0.25);
-      transition: 0.2s;
-    }
-
-    .generate-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(109,40,217,0.30);
-    }
-
-    .generate-button:disabled {
-      opacity: 0.7;
-      cursor: wait;
-      transform: none;
-    }
-
-    /* RESULT */
-
-    .result-box {
-      margin-bottom: 20px;
-    }
-
-    .result-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .result-label strong {
-      font-size: 14px;
-      color: #374151;
-    }
-
-    .copy-button {
-      border: none;
-      background: #ede9fe;
-      color: #6d28d9;
-      padding: 6px 10px;
-      border-radius: 7px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .copy-button:hover {
-      background: #ddd6fe;
-    }
-
-    .result-content {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px;
-      min-height: 50px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      color: #334155;
-      font-size: 14px;
-    }
-
-    .empty-result {
-      color: #94a3b8;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .empty-result .icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    /* LOADING */
-
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 25px;
-    }
-
-    .spinner {
-      width: 35px;
-      height: 35px;
-      border: 4px solid #ddd6fe;
-      border-top-color: #7c3aed;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: auto auto 12px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* FOOTER */
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #94a3b8;
-      font-size: 13px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 800px) {
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .header-content {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- =====================================================
+       APPLICATION
+       ===================================================== -->
 
-  <header>
-    <div class="header-content">
+  <div id="app">
 
-      <div class="logo">
-        Vende<span>IA</span>
-      </div>
 
-      <div class="badge">
-        ✨ Asistente inteligente para vendedores
-      </div>
+    <!-- ===================================================
+         HEADER
+         =================================================== -->
 
-    </div>
-  </header>
+    <header class="site-header">
 
+      <div class="container header-inner">
 
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <h1>
-      Crea mejores anuncios <span>en segundos</span>
-    </h1>
-
-    <p>
-      Introduce los datos de tu producto y VendeIA creará
-      un anuncio optimizado para ayudarte a vender mejor.
-    </p>
-
-  </section>
-
-
-  <!-- MAIN -->
-
-  <main>
-
-    <div class="grid">
-
-      <!-- FORMULARIO -->
-
-      <section class="card">
-
-        <h2>📦 Tu producto</h2>
-
-        <p class="card-subtitle">
-          Cuéntanos qué estás vendiendo.
-        </p>
-
-
-        <div class="form-group">
-
-          <label for="product">
-            Producto
-          </label>
-
-          <input
-            id="product"
-            type="text"
-            placeholder="Ej: iPhone 13 128GB"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="category">
-            Categoría
-          </label>
-
-          <input
-            id="category"
-            type="text"
-            placeholder="Ej: Electrónica"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="brand">
-            Marca
-          </label>
-
-          <input
-            id="brand"
-            type="text"
-            placeholder="Ej: Apple"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="condition">
-            Estado
-          </label>
-
-          <select id="condition">
-
-            <option value="">
-              Selecciona el estado
-            </option>
-
-            <option value="Nuevo">
-              Nuevo
-            </option>
-
-            <option value="Como nuevo">
-              Como nuevo
-            </option>
-
-            <option value="Muy buen estado">
-              Muy buen estado
-            </option>
-
-            <option value="Buen estado">
-              Buen estado
-            </option>
-
-            <option value="Usado">
-              Usado
-            </option>
-
-            <option value="Para reparar">
-              Para reparar
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="price">
-            Precio (€)
-          </label>
-
-          <input
-            id="price"
-            type="number"
-            placeholder="Ej: 200"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="details">
-            Información adicional
-          </label>
-
-          <textarea
-            id="details"
-            placeholder="Características, accesorios, tiempo de uso, motivo de venta, defectos, ubicación, etc."
-          ></textarea>
-
-        </div>
-
-
-        <button
-          id="generateButton"
-          class="generate-button"
-          onclick="generarAnuncio()"
-        >
-          ✨ Generar anuncio
-        </button>
-
-      </section>
-
-
-      <!-- RESULTADO -->
-
-      <section class="card">
-
-        <h2>🚀 Tu anuncio</h2>
-
-        <p class="card-subtitle">
-          Resultado generado por VendeIA.
-        </p>
-
-
-        <!-- LOADING -->
-
-        <div
-          id="loading"
-          class="loading"
+        <a
+          href="/"
+          class="brand"
+          aria-label="VendeIA inicio"
         >
 
-          <div class="spinner"></div>
+          <span class="brand-mark">
+            V
+          </span>
 
-          <strong>
-            VendeIA está creando tu anuncio...
-          </strong>
+          <span class="brand-name">
+            Vende<span>IA</span>
+          </span>
 
-          <p style="margin-top:7px;color:#64748b;font-size:13px;">
-            Esto puede tardar unos segundos.
+        </a>
+
+
+        <div class="header-status">
+
+          <span class="status-dot"></span>
+
+          <span>
+            IA disponible
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
+    <main>
+
+      <section class="hero">
+
+        <div class="container hero-inner">
+
+          <div class="hero-badge">
+
+            <span>✦</span>
+
+            Potenciado por inteligencia artificial
+
+          </div>
+
+
+          <h1 class="hero-title">
+
+            Convierte cualquier producto
+            <span>en un anuncio que vende.</span>
+
+          </h1>
+
+
+          <p class="hero-description">
+
+            Describe tu producto. VendeIA se encarga de transformar
+            tus datos en un anuncio claro, atractivo y optimizado
+            para marketplaces.
+
           </p>
 
         </div>
 
+      </section>
 
-        <!-- RESULTADOS -->
 
-        <div id="results">
+      <!-- =================================================
+           WORKSPACE
+           ================================================= -->
 
-          <div class="empty-result">
+      <section class="workspace">
 
-            <div class="icon">
-              🛍️
+        <div class="container workspace-grid">
+
+
+          <!-- ===============================================
+               PRODUCT FORM
+               =============================================== -->
+
+          <section
+            class="panel product-panel"
+            aria-labelledby="product-heading"
+          >
+
+            <div class="panel-header">
+
+              <div>
+
+                <div class="panel-eyebrow">
+                  PASO 01
+                </div>
+
+                <h2
+                  id="product-heading"
+                  class="panel-title"
+                >
+                  Tu producto
+                </h2>
+
+                <p class="panel-description">
+                  Cuéntanos qué estás vendiendo.
+                </p>
+
+              </div>
+
             </div>
 
-            <strong>
-              Tu anuncio aparecerá aquí
-            </strong>
 
-            <p style="margin-top:8px;">
-              Completa los datos del producto y pulsa
-              "Generar anuncio".
-            </p>
+            <form
+              id="productForm"
+              class="product-form"
+              novalidate
+            >
+
+
+              <!-- PRODUCT -->
+
+              <div class="field">
+
+                <label
+                  for="product"
+                  class="field-label"
+                >
+                  Producto
+                </label>
+
+                <div class="input-wrapper">
+
+                  <input
+                    id="product"
+                    name="product"
+                    type="text"
+                    class="field-input"
+                    placeholder="Ej. iPhone 13 128GB"
+                    autocomplete="off"
+                    required
+                  >
+
+                </div>
+
+              </div>
+
+
+              <!-- CATEGORY -->
+
+              <div class="field">
+
+                <label
+                  for="category"
+                  class="field-label"
+                >
+                  Categoría
+                </label>
+
+                <div class="input-wrapper">
+
+                  <input
+                    id="category"
+                    name="category"
+                    type="text"
+                    class="field-input"
+                    placeholder="Ej. Electrónica"
+                    autocomplete="off"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <!-- BRAND -->
+
+              <div class="field">
+
+                <label
+                  for="brand"
+                  class="field-label"
+                >
+                  Marca
+                </label>
+
+                <div class="input-wrapper">
+
+                  <input
+                    id="brand"
+                    name="brand"
+                    type="text"
+                    class="field-input"
+                    placeholder="Ej. Apple"
+                    autocomplete="off"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <!-- CONDITION -->
+
+              <div class="field">
+
+                <label
+                  for="condition"
+                  class="field-label"
+                >
+                  Estado
+                </label>
+
+                <div class="select-wrapper">
+
+                  <select
+                    id="condition"
+                    name="condition"
+                    class="field-input"
+                  >
+
+                    <option value="">
+                      Selecciona el estado
+                    </option>
+
+                    <option value="Nuevo">
+                      Nuevo
+                    </option>
+
+                    <option value="Como nuevo">
+                      Como nuevo
+                    </option>
+
+                    <option value="Muy buen estado">
+                      Muy buen estado
+                    </option>
+
+                    <option value="Buen estado">
+                      Buen estado
+                    </option>
+
+                    <option value="Usado">
+                      Usado
+                    </option>
+
+                    <option value="Para reparar">
+                      Para reparar
+                    </option>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+
+              <!-- PRICE -->
+
+              <div class="field">
+
+                <label
+                  for="price"
+                  class="field-label"
+                >
+                  Precio
+                </label>
+
+                <div class="price-input">
+
+                  <input
+                    id="price"
+                    name="price"
+                    type="number"
+                    class="field-input"
+                    placeholder="200"
+                    min="0"
+                    step="1"
+                    inputmode="decimal"
+                  >
+
+                  <span class="currency">
+                    €
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- DETAILS -->
+
+              <div class="field">
+
+                <div class="field-label-row">
+
+                  <label
+                    for="details"
+                    class="field-label"
+                  >
+                    Información adicional
+                  </label>
+
+                  <span class="field-optional">
+                    Opcional
+                  </span>
+
+                </div>
+
+                <textarea
+                  id="details"
+                  name="details"
+                  class="field-textarea"
+                  placeholder="Características, accesorios, tiempo de uso, motivo de venta, defectos, ubicación..."
+                  rows="6"
+                ></textarea>
+
+                <div class="field-helper">
+                  Cuanta más información proporciones, mejor podrá trabajar la IA.
+                </div>
+
+              </div>
+
+
+              <!-- SUBMIT -->
+
+              <button
+                id="generateButton"
+                type="submit"
+                class="generate-button"
+              >
+
+                <span class="button-icon">
+                  ✦
+                </span>
+
+                <span class="button-text">
+                  Generar anuncio
+                </span>
+
+                <span
+                  class="button-arrow"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+
+              </button>
+
+            </form>
+
+          </section>
+
+
+          <!-- ===============================================
+               RESULT PANEL
+               =============================================== -->
+
+          <section
+            class="panel result-panel"
+            aria-labelledby="result-heading"
+          >
+
+            <div class="panel-header result-header">
+
+              <div>
+
+                <div class="panel-eyebrow">
+                  PASO 02
+                </div>
+
+                <h2
+                  id="result-heading"
+                  class="panel-title"
+                >
+                  Tu anuncio
+                </h2>
+
+                <p class="panel-description">
+                  Aquí aparecerá el resultado generado por IA.
+                </p>
+
+              </div>
+
+
+              <div
+                id="resultStatus"
+                class="result-status"
+              >
+
+                <span class="status-dot"></span>
+
+                Listo
+
+              </div>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+              id="emptyState"
+              class="empty-state"
+            >
+
+              <div class="empty-icon">
+
+                <div class="empty-icon-glow"></div>
+
+                <span>
+                  ✦
+                </span>
+
+              </div>
+
+              <h3>
+                Tu anuncio aparecerá aquí
+              </h3>
+
+              <p>
+                Completa la información de tu producto
+                y deja que VendeIA haga el trabajo.
+              </p>
+
+            </div>
+
+
+            <!-- LOADING STATE -->
+
+            <div
+              id="loadingState"
+              class="loading-state"
+              hidden
+            >
+
+              <div class="loading-orb">
+
+                <span></span>
+
+              </div>
+
+              <h3>
+                Creando tu anuncio...
+              </h3>
+
+              <p>
+                Analizando la información del producto.
+              </p>
+
+            </div>
+
+
+            <!-- ERROR STATE -->
+
+            <div
+              id="errorState"
+              class="error-state"
+              hidden
+            >
+
+              <div class="error-icon">
+                !
+              </div>
+
+              <h3>
+                No hemos podido generar el anuncio
+              </h3>
+
+              <p id="errorMessage">
+                Ha ocurrido un error inesperado.
+              </p>
+
+            </div>
+
+
+            <!-- RESULT CONTENT -->
+
+            <div
+              id="resultContent"
+              class="result-content"
+              hidden
+            >
+
+
+              <!-- TITLE -->
+
+              <article class="result-block">
+
+                <div class="result-block-header">
+
+                  <div class="result-block-title">
+
+                    <span class="result-block-icon">
+                      T
+                    </span>
+
+                    <span>
+                      Título
+                    </span>
+
+                  </div>
+
+
+                  <button
+                    type="button"
+                    class="copy-button"
+                    data-copy-target="titleResult"
+                  >
+                    Copiar
+                  </button>
+
+                </div>
+
+
+                <div
+                  id="titleResult"
+                  class="result-text result-title"
+                ></div>
+
+              </article>
+
+
+              <!-- DESCRIPTION -->
+
+              <article class="result-block">
+
+                <div class="result-block-header">
+
+                  <div class="result-block-title">
+
+                    <span class="result-block-icon">
+                      A
+                    </span>
+
+                    <span>
+                      Descripción
+                    </span>
+
+                  </div>
+
+
+                  <button
+                    type="button"
+                    class="copy-button"
+                    data-copy-target="descriptionResult"
+                  >
+                    Copiar
+                  </button>
+
+                </div>
+
+
+                <div
+                  id="descriptionResult"
+                  class="result-text"
+                ></div>
+
+              </article>
+
+
+              <!-- KEYWORDS -->
+
+              <article class="result-block">
+
+                <div class="result-block-header">
+
+                  <div class="result-block-title">
+
+                    <span class="result-block-icon">
+                      #
+                    </span>
+
+                    <span>
+                      Palabras clave
+                    </span>
+
+                  </div>
+
+
+                  <button
+                    type="button"
+                    class="copy-button"
+                    data-copy-target="keywordsResult"
+                  >
+                    Copiar
+                  </button>
+
+                </div>
+
+
+                <div
+                  id="keywordsResult"
+                  class="result-text"
+                ></div>
+
+              </article>
+
+
+              <!-- COPY ALL -->
+
+              <button
+                id="copyAllButton"
+                type="button"
+                class="copy-all-button"
+              >
+
+                <span>
+                  Copiar anuncio completo
+                </span>
+
+                <span>
+                  ⧉
+                </span>
+
+              </button>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           VALUE PROPOSITION
+           ================================================= -->
+
+      <section class="features">
+
+        <div class="container">
+
+          <div class="features-grid">
+
+
+            <article class="feature">
+
+              <div class="feature-icon">
+                ✦
+              </div>
+
+              <div>
+
+                <h3>
+                  Más rápido
+                </h3>
+
+                <p>
+                  Crea anuncios completos sin perder
+                  tiempo redactando desde cero.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="feature">
+
+              <div class="feature-icon">
+                ◈
+              </div>
+
+              <div>
+
+                <h3>
+                  Más profesional
+                </h3>
+
+                <p>
+                  Presenta tus productos con textos claros
+                  y atractivos para compradores.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="feature">
+
+              <div class="feature-icon">
+                ◎
+              </div>
+
+              <div>
+
+                <h3>
+                  Sin complicaciones
+                </h3>
+
+                <p>
+                  Introduce los datos. VendeIA hace
+                  el resto.
+                </p>
+
+              </div>
+
+            </article>
+
 
           </div>
 
@@ -531,348 +754,41 @@
 
       </section>
 
-    </div>
+    </main>
 
-  </main>
 
+    <!-- ===================================================
+         FOOTER
+         =================================================== -->
 
-  <footer>
-    © 2026 VendeIA · Crea mejores anuncios con inteligencia artificial
-  </footer>
+    <footer class="site-footer">
 
+      <div class="container footer-inner">
 
-  <!-- JAVASCRIPT -->
+        <div class="footer-brand">
+          VendeIA
+        </div>
 
-  <script>
+        <div>
+          Tu asistente inteligente para vender online.
+        </div>
 
-    async function generarAnuncio() {
+        <div>
+          © 2026 VendeIA
+        </div>
 
-      const product =
-        document.getElementById("product").value.trim();
+      </div>
 
-      const category =
-        document.getElementById("category").value.trim();
+    </footer>
 
-      const brand =
-        document.getElementById("brand").value.trim();
+  </div>
 
-      const condition =
-        document.getElementById("condition").value;
 
-      const price =
-        document.getElementById("price").value.trim();
+  <!-- =====================================================
+       JAVASCRIPT APPLICATION
+       ===================================================== -->
 
-      const details =
-        document.getElementById("details").value.trim();
-
-
-      /* VALIDACIÓN */
-
-      if (!product) {
-
-        alert("Escribe qué producto estás vendiendo.");
-
-        return;
-
-      }
-
-
-      /* ELEMENTOS */
-
-      const button =
-        document.getElementById("generateButton");
-
-      const loading =
-        document.getElementById("loading");
-
-      const results =
-        document.getElementById("results");
-
-
-      /* ESTADO DE CARGA */
-
-      button.disabled = true;
-
-      button.textContent = "Generando...";
-
-      loading.style.display = "block";
-
-      results.innerHTML = "";
-
-
-      try {
-
-        /* LLAMADA A VERCEL */
-
-        const response = await fetch(
-          "/api/generar",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-              product,
-              category,
-              brand,
-              condition,
-              price,
-              details
-
-            })
-          }
-        );
-
-
-        /* RESPUESTA */
-
-        const data = await response.json();
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.error ||
-            "No se pudo generar el anuncio."
-          );
-
-        }
-
-
-        const resultado =
-          data.result || "";
-
-
-        /* EXTRAER SECCIONES */
-
-        const tituloMatch =
-          resultado.match(
-            /TÍTULO:\s*([\s\S]*?)(?=DESCRIPCIÓN:|$)/i
-          );
-
-
-        const descripcionMatch =
-          resultado.match(
-            /DESCRIPCIÓN:\s*([\s\S]*?)(?=PALABRAS CLAVE:|$)/i
-          );
-
-
-        const keywordsMatch =
-          resultado.match(
-            /PALABRAS CLAVE:\s*([\s\S]*)/i
-          );
-
-
-        const titulo =
-          tituloMatch
-            ? tituloMatch[1].trim()
-            : resultado.trim();
-
-
-        const descripcion =
-          descripcionMatch
-            ? descripcionMatch[1].trim()
-            : "";
-
-
-        const keywords =
-          keywordsMatch
-            ? keywordsMatch[1].trim()
-            : "";
-
-
-        /* MOSTRAR RESULTADO */
-
-        results.innerHTML = `
-
-          <div class="result-box">
-
-            <div class="result-label">
-
-              <strong>
-                🏷️ Título
-              </strong>
-
-              <button
-                class="copy-button"
-                onclick="copiarTexto('titleResult')"
-              >
-                Copiar
-              </button>
-
-            </div>
-
-            <div
-              id="titleResult"
-              class="result-content"
-            >
-              ${escapeHtml(titulo)}
-            </div>
-
-          </div>
-
-
-          <div class="result-box">
-
-            <div class="result-label">
-
-              <strong>
-                📝 Descripción
-              </strong>
-
-              <button
-                class="copy-button"
-                onclick="copiarTexto('descriptionResult')"
-              >
-                Copiar
-              </button>
-
-            </div>
-
-            <div
-              id="descriptionResult"
-              class="result-content"
-            >
-              ${escapeHtml(descripcion)}
-            </div>
-
-          </div>
-
-
-          <div class="result-box">
-
-            <div class="result-label">
-
-              <strong>
-                🔎 Palabras clave
-              </strong>
-
-              <button
-                class="copy-button"
-                onclick="copiarTexto('keywordsResult')"
-              >
-                Copiar
-              </button>
-
-            </div>
-
-            <div
-              id="keywordsResult"
-              class="result-content"
-            >
-              ${escapeHtml(keywords)}
-            </div>
-
-          </div>
-
-        `;
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        results.innerHTML = `
-
-          <div
-            style="
-              background:#fef2f2;
-              border:1px solid #fecaca;
-              color:#991b1b;
-              padding:18px;
-              border-radius:12px;
-            "
-          >
-
-            <strong>
-              ❌ No se pudo generar el anuncio
-            </strong>
-
-            <p style="margin-top:8px;">
-              ${escapeHtml(error.message)}
-            </p>
-
-          </div>
-
-        `;
-
-      } finally {
-
-        loading.style.display = "none";
-
-        button.disabled = false;
-
-        button.textContent =
-          "✨ Generar anuncio";
-
-      }
-
-    }
-
-
-    /* COPIAR */
-
-    async function copiarTexto(id) {
-
-      const elemento =
-        document.getElementById(id);
-
-      if (!elemento) return;
-
-
-      const texto =
-        elemento.innerText;
-
-
-      try {
-
-        await navigator.clipboard.writeText(texto);
-
-        const boton =
-          event.target;
-
-        const original =
-          boton.textContent;
-
-        boton.textContent =
-          "✓ Copiado";
-
-        setTimeout(() => {
-
-          boton.textContent =
-            original;
-
-        }, 1500);
-
-
-      } catch (error) {
-
-        alert(
-          "No se pudo copiar automáticamente."
-        );
-
-      }
-
-    }
-
-
-    /* SEGURIDAD */
-
-    function escapeHtml(text) {
-
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-  </script>
+  <script src="/js/app.js"></script>
 
 </body>
 </html>
