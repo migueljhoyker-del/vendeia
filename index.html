@@ -10,785 +10,774 @@
 
   <meta
     name="description"
-    content="VendeIA transforma la información de tus productos en anuncios profesionales para marketplaces."
+    content="VendeIA utiliza inteligencia artificial para ayudarte a crear anuncios profesionales para vender online."
   >
 
-  <meta
-    name="theme-color"
-    content="#0b0f19"
-  >
+  <title>VendeIA — Crea anuncios que venden</title>
 
-  <title>VendeIA — Tu asistente inteligente de ventas</title>
-
-  <!--
-    Hoja de estilos principal.
-    La crearemos en el siguiente paso.
-  -->
   <link rel="stylesheet" href="/css/styles.css">
-
 </head>
 
 <body>
 
-  <!-- =====================================================
-       APPLICATION
-       ===================================================== -->
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <div id="app">
+  <header class="site-header">
+    <div class="container header-inner">
 
+      <a href="/" class="brand" aria-label="VendeIA inicio">
+        <span class="brand-mark">V</span>
 
-    <!-- ===================================================
-         HEADER
-         =================================================== -->
+        <span class="brand-name">
+          Vende<span>IA</span>
+        </span>
+      </a>
 
-    <header class="site-header">
-
-      <div class="container header-inner">
-
-        <a
-          href="/"
-          class="brand"
-          aria-label="VendeIA inicio"
-        >
-
-          <span class="brand-mark">
-            V
-          </span>
-
-          <span class="brand-name">
-            Vende<span>IA</span>
-          </span>
-
-        </a>
-
-
-        <div class="header-status">
-
-          <span class="status-dot"></span>
-
-          <span>
-            IA disponible
-          </span>
-
-        </div>
-
+      <div class="header-status">
+        <span class="status-dot"></span>
+        IA disponible
       </div>
 
-    </header>
+    </div>
+  </header>
 
 
-    <!-- ===================================================
-         HERO
-         =================================================== -->
+  <!-- =========================
+       MAIN
+  ========================== -->
 
-    <main>
+  <main>
 
-      <section class="hero">
+    <!-- HERO -->
 
-        <div class="container hero-inner">
+    <section class="hero">
+      <div class="container hero-content">
 
-          <div class="hero-badge">
+        <div class="eyebrow">
+          <span>✦</span>
+          ASISTENTE INTELIGENTE PARA VENDEDORES
+        </div>
 
-            <span>✦</span>
+        <h1>
+          Convierte cualquier producto
+          <span>en un anuncio que vende.</span>
+        </h1>
 
-            Potenciado por inteligencia artificial
+        <p class="hero-description">
+          Introduce la información de tu producto y deja que VendeIA
+          transforme esos datos en un anuncio claro, atractivo y
+          optimizado para vender online.
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- WORKSPACE -->
+
+    <section class="workspace">
+      <div class="container workspace-grid">
+
+
+        <!-- =========================
+             FORMULARIO
+        ========================== -->
+
+        <div class="panel form-panel">
+
+          <div class="panel-header">
+
+            <div>
+              <span class="panel-kicker">
+                PASO 01
+              </span>
+
+              <h2>
+                Describe tu producto
+              </h2>
+
+              <p>
+                Cuanta más información proporciones,
+                mejor podrá trabajar la IA.
+              </p>
+            </div>
 
           </div>
 
 
-          <h1 class="hero-title">
-
-            Convierte cualquier producto
-            <span>en un anuncio que vende.</span>
-
-          </h1>
+          <form id="productForm" novalidate>
 
 
-          <p class="hero-description">
+            <!-- PRODUCTO -->
 
-            Describe tu producto. VendeIA se encarga de transformar
-            tus datos en un anuncio claro, atractivo y optimizado
-            para marketplaces.
+            <div class="field-group">
 
+              <label for="product">
+                ¿Qué estás vendiendo?
+                <span class="required">*</span>
+              </label>
+
+              <p class="field-help">
+                Escribe el nombre exacto del producto.
+              </p>
+
+              <input
+                type="text"
+                id="product"
+                name="product"
+                placeholder="Ej. iPhone 13 128 GB"
+                autocomplete="off"
+              >
+
+            </div>
+
+
+            <!-- CATEGORÍA -->
+
+            <div class="field-group">
+
+              <label for="category">
+                Categoría
+              </label>
+
+              <p class="field-help">
+                Selecciona la categoría que mejor describe el producto.
+              </p>
+
+              <div class="select-wrapper">
+
+                <select
+                  id="category"
+                  name="category"
+                >
+
+                  <option value="" selected>
+                    Selecciona una categoría
+                  </option>
+
+                  <option value="Electrónica">
+                    Electrónica
+                  </option>
+
+                  <option value="Móviles y telefonía">
+                    Móviles y telefonía
+                  </option>
+
+                  <option value="Informática">
+                    Informática
+                  </option>
+
+                  <option value="Consolas y videojuegos">
+                    Consolas y videojuegos
+                  </option>
+
+                  <option value="Televisión y audio">
+                    Televisión y audio
+                  </option>
+
+                  <option value="Electrodomésticos">
+                    Electrodomésticos
+                  </option>
+
+                  <option value="Hogar">
+                    Hogar
+                  </option>
+
+                  <option value="Muebles">
+                    Muebles
+                  </option>
+
+                  <option value="Decoración">
+                    Decoración
+                  </option>
+
+                  <option value="Moda">
+                    Moda
+                  </option>
+
+                  <option value="Calzado">
+                    Calzado
+                  </option>
+
+                  <option value="Deportes">
+                    Deportes
+                  </option>
+
+                  <option value="Motor">
+                    Motor
+                  </option>
+
+                  <option value="Herramientas">
+                    Herramientas
+                  </option>
+
+                  <option value="Jardín">
+                    Jardín
+                  </option>
+
+                  <option value="Libros">
+                    Libros
+                  </option>
+
+                  <option value="Música">
+                    Música
+                  </option>
+
+                  <option value="Coleccionismo">
+                    Coleccionismo
+                  </option>
+
+                  <option value="Bebés y niños">
+                    Bebés y niños
+                  </option>
+
+                  <option value="Belleza y cuidado personal">
+                    Belleza y cuidado personal
+                  </option>
+
+                  <option value="Otros">
+                    Otros
+                  </option>
+
+                </select>
+
+                <span class="select-arrow">
+                  ▾
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- MARCA -->
+
+            <div class="field-group">
+
+              <label for="brand">
+                Marca
+                <span class="optional">
+                  OPCIONAL
+                </span>
+              </label>
+
+              <p class="field-help">
+                La marca ayuda a generar títulos y búsquedas más precisas.
+              </p>
+
+              <input
+                type="text"
+                id="brand"
+                name="brand"
+                placeholder="Ej. Apple, Nike, Samsung, Carrefour Home..."
+                autocomplete="off"
+              >
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <div class="field-group">
+
+              <label for="condition">
+                Estado del producto
+              </label>
+
+              <p class="field-help">
+                Sé preciso. La IA no inventará características que no hayas indicado.
+              </p>
+
+              <div class="select-wrapper">
+
+                <select
+                  id="condition"
+                  name="condition"
+                >
+
+                  <option value="" selected>
+                    Selecciona el estado
+                  </option>
+
+                  <option value="Nuevo">
+                    Nuevo
+                  </option>
+
+                  <option value="Como nuevo">
+                    Como nuevo
+                  </option>
+
+                  <option value="Muy buen estado">
+                    Muy buen estado
+                  </option>
+
+                  <option value="Buen estado">
+                    Buen estado
+                  </option>
+
+                  <option value="Usado">
+                    Usado
+                  </option>
+
+                  <option value="Aceptable">
+                    Aceptable
+                  </option>
+
+                  <option value="Para reparar">
+                    Para reparar
+                  </option>
+
+                </select>
+
+                <span class="select-arrow">
+                  ▾
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- PRECIO -->
+
+            <div class="field-group">
+
+              <label for="price">
+                Precio que quieres pedir
+                <span class="optional">
+                  OPCIONAL
+                </span>
+              </label>
+
+              <p class="field-help">
+                Indica el precio actual que quieres publicar.
+              </p>
+
+              <div class="price-input">
+
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  min="0"
+                  step="0.01"
+                  inputmode="decimal"
+                  placeholder="Ej. 200"
+                >
+
+                <span>€</span>
+
+              </div>
+
+            </div>
+
+
+            <!-- DETALLES -->
+
+            <div class="field-group">
+
+              <div class="label-row">
+
+                <label for="details">
+                  Detalles adicionales
+                </label>
+
+                <span class="optional">
+                  RECOMENDADO
+                </span>
+
+              </div>
+
+              <p class="field-help">
+                Añade todo aquello que pueda ayudar a vender el producto.
+              </p>
+
+              <textarea
+                id="details"
+                name="details"
+                rows="8"
+                maxlength="5000"
+                placeholder="Ej. Lo he usado muy pocas veces. Está prácticamente nuevo, funciona perfectamente y conservo el mando, caja y accesorios. Lo vendo porque ya no lo utilizo. Se puede probar antes de comprar..."
+              ></textarea>
+
+              <div class="textarea-footer">
+                <span>
+                  Evita información que no puedas confirmar.
+                </span>
+
+                <span>
+                  Máx. 5000 caracteres
+                </span>
+              </div>
+
+            </div>
+
+
+            <!-- BOTÓN -->
+
+            <button
+              type="submit"
+              id="generateButton"
+              class="primary-button"
+            >
+
+              <span>
+                Generar anuncio
+              </span>
+
+              <span class="button-arrow">
+                →
+              </span>
+
+            </button>
+
+            <p class="form-disclaimer">
+              VendeIA utiliza inteligencia artificial para generar
+              el contenido. Revisa siempre el anuncio antes de publicarlo.
+            </p>
+
+          </form>
+
+        </div>
+
+
+        <!-- =========================
+             RESULTADO
+        ========================== -->
+
+        <div class="panel result-panel">
+
+          <div class="panel-header result-header">
+
+            <div>
+
+              <span class="panel-kicker">
+                PASO 02
+              </span>
+
+              <h2>
+                Tu anuncio
+              </h2>
+
+              <p id="resultStatus">
+                El resultado aparecerá aquí.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- ESTADO VACÍO -->
+
+          <div
+            id="emptyState"
+            class="empty-state"
+          >
+
+            <div class="empty-icon">
+              ✦
+            </div>
+
+            <h3>
+              Tu próximo anuncio empieza aquí
+            </h3>
+
+            <p>
+              Completa la información del producto y
+              deja que VendeIA prepare el anuncio por ti.
+            </p>
+
+          </div>
+
+
+          <!-- LOADING -->
+
+          <div
+            id="loadingState"
+            class="loading-state"
+            hidden
+          >
+
+            <div class="loading-orb">
+              <span></span>
+            </div>
+
+            <h3>
+              Analizando tu producto...
+            </h3>
+
+            <p>
+              VendeIA está preparando el anuncio.
+            </p>
+
+          </div>
+
+
+          <!-- ERROR -->
+
+          <div
+            id="errorState"
+            class="error-state"
+            hidden
+          >
+
+            <div class="error-icon">
+              !
+            </div>
+
+            <h3>
+              No hemos podido generar el anuncio
+            </h3>
+
+            <p id="errorMessage">
+              Ha ocurrido un error inesperado.
+            </p>
+
+          </div>
+
+
+          <!-- RESULTADO -->
+
+          <div
+            id="resultContent"
+            class="result-content"
+            hidden
+          >
+
+            <!-- TÍTULO -->
+
+            <div class="result-block">
+
+              <div class="result-block-header">
+
+                <div>
+                  <span class="result-label">
+                    TÍTULO
+                  </span>
+
+                  <h3>
+                    Título optimizado
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  class="copy-button"
+                  data-copy-target="titleResult"
+                >
+                  Copiar
+                </button>
+
+              </div>
+
+              <div
+                id="titleResult"
+                class="result-text result-title"
+              ></div>
+
+            </div>
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <div class="result-block">
+
+              <div class="result-block-header">
+
+                <div>
+                  <span class="result-label">
+                    DESCRIPCIÓN
+                  </span>
+
+                  <h3>
+                    Texto del anuncio
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  class="copy-button"
+                  data-copy-target="descriptionResult"
+                >
+                  Copiar
+                </button>
+
+              </div>
+
+              <div
+                id="descriptionResult"
+                class="result-text result-description"
+              ></div>
+
+            </div>
+
+
+            <!-- PALABRAS CLAVE -->
+
+            <div class="result-block">
+
+              <div class="result-block-header">
+
+                <div>
+                  <span class="result-label">
+                    PALABRAS CLAVE
+                  </span>
+
+                  <h3>
+                    Búsquedas relacionadas
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  class="copy-button"
+                  data-copy-target="keywordsResult"
+                >
+                  Copiar
+                </button>
+
+              </div>
+
+              <div
+                id="keywordsResult"
+                class="result-text result-keywords"
+              ></div>
+
+            </div>
+
+
+            <!-- COPIAR TODO -->
+
+            <button
+              type="button"
+              id="copyAllButton"
+              class="secondary-button"
+            >
+              Copiar anuncio completo
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================
+         FEATURES
+    ========================== -->
+
+    <section class="features">
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="panel-kicker">
+            VENDEIA
+          </span>
+
+          <h2>
+            Diseñado para vender mejor.
+          </h2>
+
+          <p>
+            Menos tiempo escribiendo.
+            Más tiempo vendiendo.
           </p>
 
         </div>
 
-      </section>
 
+        <div class="features-grid">
 
-      <!-- =================================================
-           WORKSPACE
-           ================================================= -->
+          <article class="feature-card">
 
-      <section class="workspace">
+            <span class="feature-number">
+              01
+            </span>
 
-        <div class="container workspace-grid">
+            <h3>
+              Títulos optimizados
+            </h3>
 
+            <p>
+              Convierte información básica en títulos
+              claros y fáciles de encontrar.
+            </p>
 
-          <!-- ===============================================
-               PRODUCT FORM
-               =============================================== -->
+          </article>
 
-          <section
-            class="panel product-panel"
-            aria-labelledby="product-heading"
-          >
 
-            <div class="panel-header">
+          <article class="feature-card">
 
-              <div>
+            <span class="feature-number">
+              02
+            </span>
 
-                <div class="panel-eyebrow">
-                  PASO 01
-                </div>
+            <h3>
+              Descripciones naturales
+            </h3>
 
-                <h2
-                  id="product-heading"
-                  class="panel-title"
-                >
-                  Tu producto
-                </h2>
+            <p>
+              Presenta el producto de forma convincente
+              sin inventar información.
+            </p>
 
-                <p class="panel-description">
-                  Cuéntanos qué estás vendiendo.
-                </p>
+          </article>
 
-              </div>
 
-            </div>
+          <article class="feature-card">
 
+            <span class="feature-number">
+              03
+            </span>
 
-            <form
-              id="productForm"
-              class="product-form"
-              novalidate
-            >
+            <h3>
+              Palabras clave
+            </h3>
 
+            <p>
+              Genera términos relacionados para mejorar
+              la visibilidad del anuncio.
+            </p>
 
-              <!-- PRODUCT -->
+          </article>
 
-              <div class="field">
-
-                <label
-                  for="product"
-                  class="field-label"
-                >
-                  Producto
-                </label>
-
-                <div class="input-wrapper">
-
-                  <input
-                    id="product"
-                    name="product"
-                    type="text"
-                    class="field-input"
-                    placeholder="Ej. iPhone 13 128GB"
-                    autocomplete="off"
-                    required
-                  >
-
-                </div>
-
-              </div>
-
-
-              <!-- CATEGORY -->
-
-              <div class="field">
-
-                <label
-                  for="category"
-                  class="field-label"
-                >
-                  Categoría
-                </label>
-
-                <div class="input-wrapper">
-
-                  <input
-                    id="category"
-                    name="category"
-                    type="text"
-                    class="field-input"
-                    placeholder="Ej. Electrónica"
-                    autocomplete="off"
-                  >
-
-                </div>
-
-              </div>
-
-
-              <!-- BRAND -->
-
-              <div class="field">
-
-                <label
-                  for="brand"
-                  class="field-label"
-                >
-                  Marca
-                </label>
-
-                <div class="input-wrapper">
-
-                  <input
-                    id="brand"
-                    name="brand"
-                    type="text"
-                    class="field-input"
-                    placeholder="Ej. Apple"
-                    autocomplete="off"
-                  >
-
-                </div>
-
-              </div>
-
-
-              <!-- CONDITION -->
-
-              <div class="field">
-
-                <label
-                  for="condition"
-                  class="field-label"
-                >
-                  Estado
-                </label>
-
-                <div class="select-wrapper">
-
-                  <select
-                    id="condition"
-                    name="condition"
-                    class="field-input"
-                  >
-
-                    <option value="">
-                      Selecciona el estado
-                    </option>
-
-                    <option value="Nuevo">
-                      Nuevo
-                    </option>
-
-                    <option value="Como nuevo">
-                      Como nuevo
-                    </option>
-
-                    <option value="Muy buen estado">
-                      Muy buen estado
-                    </option>
-
-                    <option value="Buen estado">
-                      Buen estado
-                    </option>
-
-                    <option value="Usado">
-                      Usado
-                    </option>
-
-                    <option value="Para reparar">
-                      Para reparar
-                    </option>
-
-                  </select>
-
-                </div>
-
-              </div>
-
-
-              <!-- PRICE -->
-
-              <div class="field">
-
-                <label
-                  for="price"
-                  class="field-label"
-                >
-                  Precio
-                </label>
-
-                <div class="price-input">
-
-                  <input
-                    id="price"
-                    name="price"
-                    type="number"
-                    class="field-input"
-                    placeholder="200"
-                    min="0"
-                    step="1"
-                    inputmode="decimal"
-                  >
-
-                  <span class="currency">
-                    €
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <!-- DETAILS -->
-
-              <div class="field">
-
-                <div class="field-label-row">
-
-                  <label
-                    for="details"
-                    class="field-label"
-                  >
-                    Información adicional
-                  </label>
-
-                  <span class="field-optional">
-                    Opcional
-                  </span>
-
-                </div>
-
-                <textarea
-                  id="details"
-                  name="details"
-                  class="field-textarea"
-                  placeholder="Características, accesorios, tiempo de uso, motivo de venta, defectos, ubicación..."
-                  rows="6"
-                ></textarea>
-
-                <div class="field-helper">
-                  Cuanta más información proporciones, mejor podrá trabajar la IA.
-                </div>
-
-              </div>
-
-
-              <!-- SUBMIT -->
-
-              <button
-                id="generateButton"
-                type="submit"
-                class="generate-button"
-              >
-
-                <span class="button-icon">
-                  ✦
-                </span>
-
-                <span class="button-text">
-                  Generar anuncio
-                </span>
-
-                <span
-                  class="button-arrow"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-
-              </button>
-
-            </form>
-
-          </section>
-
-
-          <!-- ===============================================
-               RESULT PANEL
-               =============================================== -->
-
-          <section
-            class="panel result-panel"
-            aria-labelledby="result-heading"
-          >
-
-            <div class="panel-header result-header">
-
-              <div>
-
-                <div class="panel-eyebrow">
-                  PASO 02
-                </div>
-
-                <h2
-                  id="result-heading"
-                  class="panel-title"
-                >
-                  Tu anuncio
-                </h2>
-
-                <p class="panel-description">
-                  Aquí aparecerá el resultado generado por IA.
-                </p>
-
-              </div>
-
-
-              <div
-                id="resultStatus"
-                class="result-status"
-              >
-
-                <span class="status-dot"></span>
-
-                Listo
-
-              </div>
-
-            </div>
-
-
-            <!-- EMPTY STATE -->
-
-            <div
-              id="emptyState"
-              class="empty-state"
-            >
-
-              <div class="empty-icon">
-
-                <div class="empty-icon-glow"></div>
-
-                <span>
-                  ✦
-                </span>
-
-              </div>
-
-              <h3>
-                Tu anuncio aparecerá aquí
-              </h3>
-
-              <p>
-                Completa la información de tu producto
-                y deja que VendeIA haga el trabajo.
-              </p>
-
-            </div>
-
-
-            <!-- LOADING STATE -->
-
-            <div
-              id="loadingState"
-              class="loading-state"
-              hidden
-            >
-
-              <div class="loading-orb">
-
-                <span></span>
-
-              </div>
-
-              <h3>
-                Creando tu anuncio...
-              </h3>
-
-              <p>
-                Analizando la información del producto.
-              </p>
-
-            </div>
-
-
-            <!-- ERROR STATE -->
-
-            <div
-              id="errorState"
-              class="error-state"
-              hidden
-            >
-
-              <div class="error-icon">
-                !
-              </div>
-
-              <h3>
-                No hemos podido generar el anuncio
-              </h3>
-
-              <p id="errorMessage">
-                Ha ocurrido un error inesperado.
-              </p>
-
-            </div>
-
-
-            <!-- RESULT CONTENT -->
-
-            <div
-              id="resultContent"
-              class="result-content"
-              hidden
-            >
-
-
-              <!-- TITLE -->
-
-              <article class="result-block">
-
-                <div class="result-block-header">
-
-                  <div class="result-block-title">
-
-                    <span class="result-block-icon">
-                      T
-                    </span>
-
-                    <span>
-                      Título
-                    </span>
-
-                  </div>
-
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="titleResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-
-                <div
-                  id="titleResult"
-                  class="result-text result-title"
-                ></div>
-
-              </article>
-
-
-              <!-- DESCRIPTION -->
-
-              <article class="result-block">
-
-                <div class="result-block-header">
-
-                  <div class="result-block-title">
-
-                    <span class="result-block-icon">
-                      A
-                    </span>
-
-                    <span>
-                      Descripción
-                    </span>
-
-                  </div>
-
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="descriptionResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-
-                <div
-                  id="descriptionResult"
-                  class="result-text"
-                ></div>
-
-              </article>
-
-
-              <!-- KEYWORDS -->
-
-              <article class="result-block">
-
-                <div class="result-block-header">
-
-                  <div class="result-block-title">
-
-                    <span class="result-block-icon">
-                      #
-                    </span>
-
-                    <span>
-                      Palabras clave
-                    </span>
-
-                  </div>
-
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="keywordsResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-
-                <div
-                  id="keywordsResult"
-                  class="result-text"
-                ></div>
-
-              </article>
-
-
-              <!-- COPY ALL -->
-
-              <button
-                id="copyAllButton"
-                type="button"
-                class="copy-all-button"
-              >
-
-                <span>
-                  Copiar anuncio completo
-                </span>
-
-                <span>
-                  ⧉
-                </span>
-
-              </button>
-
-            </div>
-
-          </section>
-
-        </div>
-
-      </section>
-
-
-      <!-- =================================================
-           VALUE PROPOSITION
-           ================================================= -->
-
-      <section class="features">
-
-        <div class="container">
-
-          <div class="features-grid">
-
-
-            <article class="feature">
-
-              <div class="feature-icon">
-                ✦
-              </div>
-
-              <div>
-
-                <h3>
-                  Más rápido
-                </h3>
-
-                <p>
-                  Crea anuncios completos sin perder
-                  tiempo redactando desde cero.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="feature">
-
-              <div class="feature-icon">
-                ◈
-              </div>
-
-              <div>
-
-                <h3>
-                  Más profesional
-                </h3>
-
-                <p>
-                  Presenta tus productos con textos claros
-                  y atractivos para compradores.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="feature">
-
-              <div class="feature-icon">
-                ◎
-              </div>
-
-              <div>
-
-                <h3>
-                  Sin complicaciones
-                </h3>
-
-                <p>
-                  Introduce los datos. VendeIA hace
-                  el resto.
-                </p>
-
-              </div>
-
-            </article>
-
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-
-    <!-- ===================================================
-         FOOTER
-         =================================================== -->
-
-    <footer class="site-footer">
-
-      <div class="container footer-inner">
-
-        <div class="footer-brand">
-          VendeIA
-        </div>
-
-        <div>
-          Tu asistente inteligente para vender online.
-        </div>
-
-        <div>
-          © 2026 VendeIA
         </div>
 
       </div>
+    </section>
 
-    </footer>
-
-  </div>
+  </main>
 
 
-  <!-- =====================================================
-       JAVASCRIPT APPLICATION
-       ===================================================== -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="site-footer">
+
+    <div class="container footer-inner">
+
+      <span>
+        © 2026 VendeIA
+      </span>
+
+      <span>
+        Herramienta inteligente para vendedores
+      </span>
+
+    </div>
+
+  </footer>
+
 
   <script src="/js/app.js"></script>
 
 </body>
+</html>
 </html>
