@@ -253,7 +253,7 @@
 
 <script>
 
-function generarAnuncio() {async function generarAnuncio() {
+async function generarAnuncio() {
   const product = document.getElementById("product").value;
   const category = document.getElementById("category").value;
   const brand = document.getElementById("brand").value;
@@ -289,9 +289,17 @@ function generarAnuncio() {async function generarAnuncio() {
 
     const resultado = data.result;
 
-    const titulo = resultado.match(/TÍTULO:\s*([\s\S]*?)(?=DESCRIPCIÓN:|$)/i);
-    const descripcion = resultado.match(/DESCRIPCIÓN:\s*([\s\S]*?)(?=PALABRAS CLAVE:|$)/i);
-    const keywords = resultado.match(/PALABRAS CLAVE:\s*([\s\S]*)/i);
+    const titulo = resultado.match(
+      /TÍTULO:\s*([\s\S]*?)(?=DESCRIPCIÓN:|$)/i
+    );
+
+    const descripcion = resultado.match(
+      /DESCRIPCIÓN:\s*([\s\S]*?)(?=PALABRAS CLAVE:|$)/i
+    );
+
+    const keywords = resultado.match(
+      /PALABRAS CLAVE:\s*([\s\S]*)/i
+    );
 
     document.getElementById("titleResult").textContent =
       titulo ? titulo[1].trim() : resultado;
