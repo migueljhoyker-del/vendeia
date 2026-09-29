@@ -1,19 +1,22 @@
-"use strict";
-
-/*
- * VendeIA — Frontend Controller
- * --------------------------------
- * Responsabilidades:
- * - Capturar el formulario
- * - Validar los datos
- * - Conectar con /api/generar
- * - Gestionar estados de la interfaz
- * - Procesar la respuesta de la IA
- * - Copiar resultados al portapapeles
- */
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("productForm");
+
+  if (!form) {
+    console.error("VendeIA: no se encontró #productForm");
+    return;
+  }
+
+  // =========================================================
+  // ELEMENTOS
+  // =========================================================
+
+  const productInput = document.getElementById("product");
+  const categoryInput = document.getElementById("category");
+  const brandInput = document.getElementById("brand");
+  const conditionInput = document.getElementById("condition");
+  const priceInput = document.getElementById("price");
+  const detailsInput = document.getElementById("details");
+
   const generateButton = document.getElementById("generateButton");
 
   const emptyState = document.getElementById("emptyState");
@@ -27,26 +30,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const keywordsResult = document.getElementById("keywordsResult");
 
   const copyAllButton = document.getElementById("copyAllButton");
+  const resultStatus = document.getElementById("resultStatus");
 
-  if (!form) {
-    console.error("VendeIA: no se encontró #productForm");
-    return;
-  }
+  // =========================================================
+  // CONFIGURACIÓN
+  // =========================================================
 
-  /*
-   * --------------------------------------------------
-   * ESTADOS
-   * --------------------------------------------------
-   */
+  const MAX_DETAILS_LENGTH = 5000;
+
+  // =========================================================
+  // UTILIDADES
+  // =========================================================
 
   function showState(state) {
-    emptyState.hidden = state !== "empty";
-    loadingState.hidden = state !== "loading";
-    errorState.hidden = state !== "error";
-    resultContent.hidden = state !== "result";
+    const states = [
+      emptyState,
+      loadingState,
+      errorState,
+      resultContent
+    ];
+
+    states.forEach((element) => {
+      if (element) {
+        element.hidden = element !== state;
+      }
+    });
   }
 
-  function setLoading(isLoading) {
+  function setButtonLoading(isLoading) {
+    if (!generateButton) return;
+
     generateButton.disabled = isLoading;
 
     if (isLoading) {
@@ -54,441 +67,447 @@ document.addEventListener("DOMContentLoaded", () => {
         generateButton.textContent.trim();
 
       generateButton.textContent = "Generando anuncio...";
+      generateButton.setAttribute("aria-busy", "true");
     } else {
-      generateButton.textContent =
+      const originalText =
         generateButton.dataset.originalText || "Generar anuncio";
+
+      generateButton.textContent = originalText;
+      generateButton.removeAttribute("aria-busy");
     }
   }
-
-  /*
-   * --------------------------------------------------
-   * DATOS DEL FORMULARIO
-   * --------------------------------------------------
-   */
-
-  function getFormData() {
-    return {
-      product: getValue("product"),
-      category: getValue("category"),
-      brand: getValue("brand"),
-      condition: getValue("condition"),
-      price: getValue("price"),
-      details: getValue("details")
-    };
-  }
-
-  function getValue(id) {
-    const element = document.getElementById(id);
-
-    if (!element) {
-      return "";
-    }
-
-    return element.value.trim();
-  }
-
-  /*
-   * --------------------------------------------------
-   * VALIDACIÓN
-   * --------------------------------------------------
-   */
-
-  function validateForm(data) {
-    if (!data.product) {
-      return "Indica qué producto quieres vender.";
-    }
-
-    if (data.product.length < 2) {
-      return "El nombre del producto es demasiado corto.";
-    }
-
-    if (data.details.length > 5000) {
-      return "Los detalles del producto son demasiado largos.";
-    }
-
-    return null;
-  }
-
-  /*
-   * --------------------------------------------------
-   * PETICIÓN A LA API
-   * --------------------------------------------------
-   */
-
-  async function generateListing(data) {
-    const response = await fetch("/api/generar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-
-    let result;
-
-    try {
-      result = await response.json();
-    } catch {
-      throw new Error("El servidor devolvió una respuesta no válida.");
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        result?.error || "No se pudo generar el anuncio."
-      );
-    }
-
-    if (!result?.result) {
-      throw new Error(
-        "La IA no devolvió ningún resultado."
-      );
-    }
-
-    return result.result;
-  }
-
-  /*
-   * --------------------------------------------------
-   * PROCESAR RESPUESTA DE LA IA
-   * --------------------------------------------------
-   */
-
-  function parseAIResponse(text) {
-    const cleanText = String(text || "").trim();
-
-    let title = extractSection(
-      cleanText,
-      ["TÍTULO:", "TITULO:", "TÍTULO", "TITULO"],
-      [
-        "DESCRIPCIÓN:",
-        "DESCRIPCION:",
-        "DESCRIPCIÓN",
-        "DESCRIPCION"
-      ]
-    );
-
-    let description = extractSection(
-      cleanText,
-      ["DESCRIPCIÓN:", "DESCRIPCION:", "DESCRIPCIÓN", "DESCRIPCION"],
-      [
-        "PALABRAS CLAVE:",
-        "PALABRAS CLAVE",
-        "PALABRAS CLAVES:",
-        "PALABRAS CLAVES"
-      ]
-    );
-
-    let keywords = extractSection(
-      cleanText,
-      [
-        "PALABRAS CLAVE:",
-        "PALABRAS CLAVE",
-        "PALABRAS CLAVES:",
-        "PALABRAS CLAVES"
-      ],
-      []
-    );
-
-    /*
-     * Fallback:
-     * Si la IA cambia ligeramente el formato,
-     * seguimos mostrando algo útil.
-     */
-
-    if (!title) {
-      title = "Anuncio generado";
-    }
-
-    if (!description) {
-      description = cleanText;
-    }
-
-    if (!keywords) {
-      keywords = "segunda mano, venta, producto";
-    }
-
-    return {
-      title: cleanOutput(title),
-      description: cleanOutput(description),
-      keywords: cleanOutput(keywords)
-    };
-  }
-
-  function extractSection(text, startMarkers, endMarkers) {
-    let startIndex = -1;
-    let matchedMarker = "";
-
-    for (const marker of startMarkers) {
-      const index = text.toUpperCase().indexOf(marker);
-
-      if (index !== -1) {
-        if (startIndex === -1 || index < startIndex) {
-          startIndex = index;
-          matchedMarker = marker;
-        }
-      }
-    }
-
-    if (startIndex === -1) {
-      return "";
-    }
-
-    const contentStart =
-      startIndex + matchedMarker.length;
-
-    let endIndex = text.length;
-
-    for (const marker of endMarkers) {
-      const index = text
-        .toUpperCase()
-        .indexOf(marker, contentStart);
-
-      if (index !== -1 && index < endIndex) {
-        endIndex = index;
-      }
-    }
-
-    return text
-      .slice(contentStart, endIndex)
-      .trim();
-  }
-
-  function cleanOutput(text) {
-    return String(text || "")
-      .replace(/\r\n/g, "\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
-  }
-
-  /*
-   * --------------------------------------------------
-   * MOSTRAR RESULTADO
-   * --------------------------------------------------
-   */
-
-  function renderResult(result) {
-    /*
-     * Usamos textContent y no innerHTML.
-     * Esto evita que contenido generado por la IA
-     * pueda convertirse en HTML ejecutable.
-     */
-
-    titleResult.textContent = result.title;
-    descriptionResult.textContent = result.description;
-    keywordsResult.textContent = result.keywords;
-
-    showState("result");
-  }
-
-  /*
-   * --------------------------------------------------
-   * COPIAR AL PORTAPAPELES
-   * --------------------------------------------------
-   */
-
-  async function copyText(text, button) {
-    if (!text) {
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(text);
-
-      showCopySuccess(button);
-    } catch (error) {
-      console.error("VendeIA: error al copiar", error);
-
-      fallbackCopy(text, button);
-    }
-  }
-
-  function fallbackCopy(text, button) {
-    const textarea = document.createElement("textarea");
-
-    textarea.value = text;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-
-    document.body.appendChild(textarea);
-
-    textarea.focus();
-    textarea.select();
-
-    try {
-      document.execCommand("copy");
-      showCopySuccess(button);
-    } catch {
-      showCopyError(button);
-    }
-
-    textarea.remove();
-  }
-
-  function showCopySuccess(button) {
-    if (!button) {
-      return;
-    }
-
-    const originalText =
-      button.dataset.originalText ||
-      button.textContent;
-
-    button.dataset.originalText = originalText;
-    button.textContent = "Copiado ✓";
-    button.classList.add("is-copied");
-
-    window.setTimeout(() => {
-      button.textContent = originalText;
-      button.classList.remove("is-copied");
-    }, 1600);
-  }
-
-  function showCopyError(button) {
-    if (!button) {
-      return;
-    }
-
-    const originalText =
-      button.dataset.originalText ||
-      button.textContent;
-
-    button.dataset.originalText = originalText;
-    button.textContent = "No se pudo copiar";
-
-    window.setTimeout(() => {
-      button.textContent = originalText;
-    }, 1600);
-  }
-
-  /*
-   * --------------------------------------------------
-   * COPIAR ANUNCIO COMPLETO
-   * --------------------------------------------------
-   */
-
-  function getFullListing() {
-    const title = titleResult.textContent.trim();
-    const description = descriptionResult.textContent.trim();
-    const keywords = keywordsResult.textContent.trim();
-
-    return [
-      `TÍTULO:\n${title}`,
-      `DESCRIPCIÓN:\n${description}`,
-      `PALABRAS CLAVE:\n${keywords}`
-    ].join("\n\n");
-  }
-
-  /*
-   * --------------------------------------------------
-   * BOTONES DE COPIAR
-   * --------------------------------------------------
-   */
-
-  function setupCopyButtons() {
-    const buttons = document.querySelectorAll(
-      "[data-copy-target]"
-    );
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const targetId =
-          button.dataset.copyTarget;
-
-        const target =
-          document.getElementById(targetId);
-
-        if (!target) {
-          return;
-        }
-
-        await copyText(
-          target.textContent.trim(),
-          button
-        );
-      });
-    });
-
-    if (copyAllButton) {
-      copyAllButton.addEventListener(
-        "click",
-        async () => {
-          await copyText(
-            getFullListing(),
-            copyAllButton
-          );
-        }
-      );
-    }
-  }
-
-  /*
-   * --------------------------------------------------
-   * ERROR
-   * --------------------------------------------------
-   */
 
   function showError(message) {
-    errorMessage.textContent =
-      message ||
-      "Ha ocurrido un error inesperado.";
+    if (errorMessage) {
+      errorMessage.textContent =
+        message || "Ha ocurrido un error inesperado.";
+    }
 
-    showState("error");
+    showState(errorState);
   }
 
-  /*
-   * --------------------------------------------------
-   * SUBMIT PRINCIPAL
-   * --------------------------------------------------
-   */
+  function cleanText(value) {
+    return String(value || "").trim();
+  }
+
+  function normalizeWhitespace(value) {
+    return String(value || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/[ \t]+/g, " ")
+      .trim();
+  }
+
+  function escapeSectionRegex(label) {
+    return label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  // =========================================================
+  // PARSER DE RESPUESTA DE LA IA
+  // =========================================================
+
+  function parseAIResult(rawText) {
+    const text = normalizeWhitespace(rawText);
+
+    if (!text) {
+      return {
+        title: "",
+        description: "",
+        keywords: ""
+      };
+    }
+
+    const titleRegex = new RegExp(
+      `T[ÍI]TULO\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*DESCRIPCI[ÓO]N\\s*:|$)`,
+      "i"
+    );
+
+    const descriptionRegex = new RegExp(
+      `DESCRIPCI[ÓO]N\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*PALABRAS\\s+CLAVE\\s*:|$)`,
+      "i"
+    );
+
+    const keywordsRegex = new RegExp(
+      `PALABRAS\\s+CLAVE\\s*:\\s*([\\s\\S]*)$`,
+      "i"
+    );
+
+    const titleMatch = text.match(titleRegex);
+    const descriptionMatch = text.match(descriptionRegex);
+    const keywordsMatch = text.match(keywordsRegex);
+
+    let title = titleMatch
+      ? titleMatch[1].trim()
+      : "";
+
+    let description = descriptionMatch
+      ? descriptionMatch[1].trim()
+      : "";
+
+    let keywords = keywordsMatch
+      ? keywordsMatch[1].trim()
+      : "";
+
+    // Fallback por si el modelo devuelve el contenido
+    // sin utilizar exactamente el formato solicitado.
+    if (!title && !description && !keywords) {
+      const lines = text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      title = lines.shift() || "";
+      description = lines.join("\n");
+    }
+
+    return {
+      title,
+      description,
+      keywords
+    };
+  }
+
+  // =========================================================
+  // MOSTRAR RESULTADO
+  // =========================================================
+
+  function renderResult(result) {
+    if (titleResult) {
+      titleResult.textContent =
+        result.title || "No se ha generado un título.";
+    }
+
+    if (descriptionResult) {
+      descriptionResult.textContent =
+        result.description || "No se ha generado una descripción.";
+    }
+
+    if (keywordsResult) {
+      keywordsResult.textContent =
+        result.keywords || "No se han generado palabras clave.";
+    }
+
+    if (resultStatus) {
+      resultStatus.textContent = "Anuncio generado correctamente";
+    }
+
+    showState(resultContent);
+  }
+
+  // =========================================================
+  // COPIAR TEXTO
+  // =========================================================
+
+  async function copyText(text, button) {
+    const value = cleanText(text);
+
+    if (!value) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+
+      if (button) {
+        const originalText = button.textContent;
+
+        button.textContent = "Copiado ✓";
+        button.classList.add("is-copied");
+
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.classList.remove("is-copied");
+        }, 1800);
+      }
+
+      return true;
+    } catch (error) {
+      // Fallback para navegadores que bloqueen clipboard API.
+      try {
+        const textarea = document.createElement("textarea");
+
+        textarea.value = value;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        textarea.style.pointerEvents = "none";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        const successful = document.execCommand("copy");
+
+        textarea.remove();
+
+        if (successful && button) {
+          const originalText = button.textContent;
+
+          button.textContent = "Copiado ✓";
+          button.classList.add("is-copied");
+
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove("is-copied");
+          }, 1800);
+        }
+
+        return successful;
+      } catch (fallbackError) {
+        console.error("VendeIA: error copiando texto", fallbackError);
+        return false;
+      }
+    }
+  }
+
+  // =========================================================
+  // BOTONES INDIVIDUALES DE COPIAR
+  // =========================================================
+
+  document.querySelectorAll("[data-copy-target]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const targetId = button.dataset.copyTarget;
+
+      if (!targetId) return;
+
+      const target = document.getElementById(targetId);
+
+      if (!target) {
+        console.warn(
+          `VendeIA: no se encontró el elemento #${targetId}`
+        );
+        return;
+      }
+
+      await copyText(target.textContent, button);
+    });
+  });
+
+  // =========================================================
+  // COPIAR TODO
+  // =========================================================
+
+  if (copyAllButton) {
+    copyAllButton.addEventListener("click", async () => {
+      const title = cleanText(
+        titleResult?.textContent
+      );
+
+      const description = cleanText(
+        descriptionResult?.textContent
+      );
+
+      const keywords = cleanText(
+        keywordsResult?.textContent
+      );
+
+      const completeText = [
+        title ? `TÍTULO\n${title}` : "",
+        description ? `DESCRIPCIÓN\n${description}` : "",
+        keywords ? `PALABRAS CLAVE\n${keywords}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+
+      await copyText(completeText, copyAllButton);
+    });
+  }
+
+  // =========================================================
+  // VALIDACIÓN
+  // =========================================================
+
+  function validateForm() {
+    const product = cleanText(productInput?.value);
+    const details = cleanText(detailsInput?.value);
+
+    if (!product) {
+      productInput?.focus();
+
+      return {
+        valid: false,
+        message: "Indica qué producto quieres vender."
+      };
+    }
+
+    if (product.length < 2) {
+      productInput?.focus();
+
+      return {
+        valid: false,
+        message: "El nombre del producto es demasiado corto."
+      };
+    }
+
+    if (details.length > MAX_DETAILS_LENGTH) {
+      detailsInput?.focus();
+
+      return {
+        valid: false,
+        message:
+          `Los detalles no pueden superar los ${MAX_DETAILS_LENGTH.toLocaleString("es-ES")} caracteres.`
+      };
+    }
+
+    return {
+      valid: true
+    };
+  }
+
+  // =========================================================
+  // GENERAR ANUNCIO
+  // =========================================================
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const data = getFormData();
+    const validation = validateForm();
 
-    const validationError =
-      validateForm(data);
-
-    if (validationError) {
-      showError(validationError);
+    if (!validation.valid) {
+      showError(validation.message);
       return;
     }
 
-    setLoading(true);
-    showState("loading");
+    const payload = {
+      product: cleanText(productInput?.value),
+      category: cleanText(categoryInput?.value),
+      brand: cleanText(brandInput?.value),
+      condition: cleanText(conditionInput?.value),
+      price: cleanText(priceInput?.value),
+      details: cleanText(detailsInput?.value)
+    };
+
+    showState(loadingState);
+    setButtonLoading(true);
+
+    if (resultStatus) {
+      resultStatus.textContent = "Generando...";
+    }
 
     try {
-      const aiResponse =
-        await generateListing(data);
+      const response = await fetch("/api/generar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
 
-      const result =
-        parseAIResponse(aiResponse);
+      let data;
 
-      renderResult(result);
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        throw new Error(
+          "El servidor devolvió una respuesta no válida."
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error ||
+          "No hemos podido generar el anuncio."
+        );
+      }
+
+      const rawResult =
+        data?.result ||
+        data?.output_text ||
+        data?.text ||
+        "";
+
+      if (!rawResult) {
+        throw new Error(
+          "La IA no devolvió ningún contenido."
+        );
+      }
+
+      const parsedResult = parseAIResult(rawResult);
+
+      if (
+        !parsedResult.title &&
+        !parsedResult.description &&
+        !parsedResult.keywords
+      ) {
+        throw new Error(
+          "La respuesta recibida no contiene un anuncio válido."
+        );
+      }
+
+      renderResult(parsedResult);
+
+      // Llevar al usuario al resultado en pantallas pequeñas.
+      if (
+        window.innerWidth < 900 &&
+        resultContent
+      ) {
+        setTimeout(() => {
+          resultContent.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 100);
+      }
 
     } catch (error) {
-      console.error(
-        "VendeIA:",
-        error
-      );
+      console.error("VendeIA:", error);
 
-      showError(
-        error.message ||
-        "No se pudo generar el anuncio."
-      );
+      let message =
+        error?.message ||
+        "No hemos podido generar el anuncio.";
+
+      if (
+        error instanceof TypeError &&
+        message.toLowerCase().includes("fetch")
+      ) {
+        message =
+          "No se ha podido conectar con VendeIA. Comprueba tu conexión e inténtalo de nuevo.";
+      }
+
+      showError(message);
 
     } finally {
-      setLoading(false);
+      setButtonLoading(false);
     }
   });
 
-  /*
-   * --------------------------------------------------
-   * INICIALIZACIÓN
-   * --------------------------------------------------
-   */
+  // =========================================================
+  // CONTADOR DE CARACTERES
+  // =========================================================
 
-  setupCopyButtons();
+  if (detailsInput) {
+    const updateCounter = () => {
+      const length = detailsInput.value.length;
 
-  showState("empty");
+      let counter =
+        document.getElementById("detailsCounter");
+
+      // Si el HTML no tiene contador, no creamos elementos nuevos.
+      if (!counter) return;
+
+      counter.textContent =
+        `${length.toLocaleString("es-ES")} / ${MAX_DETAILS_LENGTH.toLocaleString("es-ES")}`;
+
+      if (length >= MAX_DETAILS_LENGTH * 0.9) {
+        counter.classList.add("is-warning");
+      } else {
+        counter.classList.remove("is-warning");
+      }
+    };
+
+    detailsInput.addEventListener(
+      "input",
+      updateCounter
+    );
+
+    updateCounter();
+  }
+
+  // =========================================================
+  // ESTADO INICIAL
+  // =========================================================
+
+  showState(emptyState);
+
+  console.log("VendeIA: aplicación iniciada correctamente.");
 });
