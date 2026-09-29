@@ -1,221 +1,253 @@
 export default async function handler(req, res) {
-  // --------------------------------------------------
-  // 1. Solo permitimos peticiones POST
-  // --------------------------------------------------
+  // =========================================================
+  // MÉTODO HTTP
+  // =========================================================
+
   if (req.method !== "POST") {
     return res.status(405).json({
-      error: "Método no permitido"
+      error: "Método no permitido."
     });
   }
 
-  // --------------------------------------------------
-  // 2. Comprobamos que existe la API Key
-  // --------------------------------------------------
-  if (!process.env.OPENAI_API_KEY) {
+  // =========================================================
+  // COMPROBAR API KEY
+  // =========================================================
+
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    console.error("VendeIA: OPENAI_API_KEY no configurada.");
+
     return res.status(500).json({
-      error: "La API de IA no está configurada correctamente."
+      error:
+        "La IA no está configurada todavía. Revisa la variable OPENAI_API_KEY en Vercel."
     });
   }
 
   try {
-    // --------------------------------------------------
-    // 3. Recibimos los datos del formulario
-    // --------------------------------------------------
-    const {
-      product,
-      category,
-      brand,
-      condition,
-      price,
-      details
-    } = req.body || {};
+    // =======================================================
+    // DATOS RECIBIDOS
+    // =======================================================
 
-    // --------------------------------------------------
-    // 4. Limpieza y límites básicos
-    // --------------------------------------------------
-    const cleanProduct = String(product || "").trim();
-    const cleanCategory = String(category || "").trim();
-    const cleanBrand = String(brand || "").trim();
-    const cleanCondition = String(condition || "").trim();
-    const cleanPrice = String(price || "").trim();
-    const cleanDetails = String(details || "").trim();
+    const body = req.body || {};
 
-    // --------------------------------------------------
-    // 5. Validación
-    // --------------------------------------------------
-    if (!cleanProduct) {
+    const product = cleanInput(body.product);
+    const category = cleanInput(body.category);
+    const brand = cleanInput(body.brand);
+    const condition = cleanInput(body.condition);
+    const price = cleanInput(body.price);
+    const details = cleanInput(body.details);
+
+    // =======================================================
+    // VALIDACIÓN
+    // =======================================================
+
+    if (!product) {
       return res.status(400).json({
-        error: "Indica qué producto quieres anunciar."
+        error: "Indica qué producto quieres vender."
       });
     }
 
-    if (cleanProduct.length > 150) {
+    if (product.length > 200) {
       return res.status(400).json({
-        error: "El nombre del producto es demasiado largo."
+        error:
+          "El nombre del producto es demasiado largo."
       });
     }
 
-    if (cleanBrand.length > 100) {
+    if (details.length > 5000) {
       return res.status(400).json({
-        error: "La marca es demasiado larga."
+        error:
+          "Los detalles del producto no pueden superar los 5.000 caracteres."
       });
     }
 
-    if (cleanDetails.length > 5000) {
-      return res.status(400).json({
-        error: "Los detalles son demasiado largos. Máximo 5000 caracteres."
-      });
-    }
+    // =======================================================
+    // PROMPT
+    // =======================================================
 
-    // --------------------------------------------------
-    // 6. Instrucciones para VendeIA
-    // --------------------------------------------------
-    const instructions = `
-Eres VendeIA, un asistente experto en creación y optimización
-de anuncios para plataformas de compraventa de segunda mano
-en España.
+    const prompt = `
+Eres VendeIA, un asistente especializado en ayudar a personas
+a vender productos de segunda mano en España.
 
-Tu objetivo es ayudar al vendedor a crear un anuncio:
-
-- Claro
-- Natural
-- Profesional
-- Persuasivo
-- Fácil de encontrar mediante búsquedas
-- Orientado a conseguir contactos y ventas
-- Sin inventar información
-- Sin exageraciones engañosas
+Tu objetivo es crear anuncios claros, atractivos, naturales y
+orientados a conseguir compradores.
 
 REGLAS IMPORTANTES:
 
-1. Utiliza únicamente la información proporcionada por el usuario.
-2. Nunca inventes características, accesorios, medidas, potencia,
-   garantía, estado, funcionamiento o cualquier otro dato.
-3. Si un dato no está disponible, simplemente no lo menciones.
-4. No utilices lenguaje excesivamente publicitario.
-5. Evita frases genéricas como "producto increíble" o "oportunidad única"
-   salvo que estén justificadas por los datos.
-6. El título debe ser claro y contener las palabras más importantes.
-7. La descripción debe ser fácil de leer.
-8. Organiza la descripción cuando sea útil.
-9. Destaca el estado real del producto.
-10. Si el vendedor proporciona un motivo de venta, puedes utilizarlo
-    de forma natural.
-11. Las palabras clave deben estar relacionadas directamente con el producto.
-12. No repitas innecesariamente las mismas palabras.
-13. Escribe en español de España.
-14. No incluyas emojis salvo que aporten realmente valor.
-15. No inventes hashtags.
+- No inventes características.
+- No inventes accesorios.
+- No inventes especificaciones técnicas.
+- No inventes garantías.
+- No inventes defectos.
+- No inventes información que el vendedor no haya proporcionado.
+- Utiliza únicamente los datos recibidos.
+- El título debe ser atractivo y fácil de encontrar mediante búsquedas.
+- La descripción debe sonar escrita por una persona real.
+- Evita lenguaje exagerado o poco creíble.
+- No utilices frases típicas de spam.
+- No repitas innecesariamente información.
+- Utiliza español natural de España.
+- No menciones que eres una IA.
+- No añadas explicaciones fuera del formato solicitado.
 
-FORMATO OBLIGATORIO DE RESPUESTA:
-
-TÍTULO:
-[un único título optimizado]
-
-DESCRIPCIÓN:
-[descripción completa del anuncio]
-
-PALABRAS CLAVE:
-[10 palabras o frases separadas por comas]
-`;
-
-    // --------------------------------------------------
-    // 7. Datos del producto
-    // --------------------------------------------------
-    const userInput = `
 DATOS DEL PRODUCTO
 
 Producto:
-${cleanProduct}
+${product}
 
 Categoría:
-${cleanCategory || "No indicada"}
+${category || "No especificada"}
 
 Marca:
-${cleanBrand || "No indicada"}
+${brand || "No especificada"}
 
 Estado:
-${cleanCondition || "No indicado"}
+${condition || "No especificado"}
 
 Precio:
-${cleanPrice ? `${cleanPrice} €` : "No indicado"}
+${price || "No especificado"}
 
 Detalles proporcionados por el vendedor:
-${cleanDetails || "No se han proporcionado detalles adicionales."}
+${details || "No se han proporcionado detalles adicionales."}
+
+DEVUELVE EXACTAMENTE ESTE FORMATO:
+
+TÍTULO:
+[Un título optimizado para el anuncio]
+
+DESCRIPCIÓN:
+[Una descripción completa, natural y convincente basada únicamente en los datos proporcionados]
+
+PALABRAS CLAVE:
+[10 palabras o frases relevantes separadas por comas]
 `;
 
-    // --------------------------------------------------
-    // 8. Petición a OpenAI
-    // --------------------------------------------------
+    // =======================================================
+    // LLAMADA A OPENAI
+    // =======================================================
+
     const response = await fetch(
       "https://api.openai.com/v1/responses",
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+          "Authorization": `Bearer ${apiKey}`
         },
+
         body: JSON.stringify({
-          model: "gpt-5.6-luna",
-          instructions,
-          input: userInput,
-          max_output_tokens: 1200
+          model: "gpt-5-mini",
+          input: prompt,
+          store: false
         })
       }
     );
 
-    // --------------------------------------------------
-    // 9. Procesamos la respuesta de OpenAI
-    // --------------------------------------------------
+    // =======================================================
+    // RESPUESTA DE OPENAI
+    // =======================================================
+
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("OpenAI API error:", data);
+      console.error(
+        "VendeIA / OpenAI:",
+        data?.error || data
+      );
 
-      if (response.status === 401) {
-        return res.status(500).json({
-          error: "La clave de OpenAI no es válida."
-        });
-      }
+      const openAIMessage =
+        data?.error?.message ||
+        "OpenAI no pudo procesar la solicitud.";
 
-      if (response.status === 429) {
-        return res.status(429).json({
-          error: "La API de IA no está disponible temporalmente o no hay saldo suficiente."
-        });
-      }
+      return res.status(response.status).json({
+        error: openAIMessage
+      });
+    }
 
-      return res.status(500).json({
+    // =======================================================
+    // EXTRAER TEXTO
+    // =======================================================
+
+    const result =
+      data?.output_text ||
+      extractOutputText(data);
+
+    if (!result) {
+      console.error(
+        "VendeIA: OpenAI respondió sin texto.",
+        data
+      );
+
+      return res.status(502).json({
         error:
-          data?.error?.message ||
-          "No se pudo generar el anuncio."
+          "La IA respondió correctamente, pero no devolvió ningún anuncio."
       });
     }
 
-    // --------------------------------------------------
-    // 10. Extraemos el texto generado
-    // --------------------------------------------------
-    const result = data.output_text;
+    // =======================================================
+    // RESPUESTA FINAL
+    // =======================================================
 
-    if (!result || typeof result !== "string") {
-      console.error("Respuesta inesperada de OpenAI:", data);
-
-      return res.status(500).json({
-        error: "La IA no devolvió un resultado válido."
-      });
-    }
-
-    // --------------------------------------------------
-    // 11. Respondemos al frontend
-    // --------------------------------------------------
     return res.status(200).json({
       result: result.trim()
     });
 
   } catch (error) {
-    console.error("Error interno:", error);
+    console.error(
+      "VendeIA / Error interno:",
+      error
+    );
 
     return res.status(500).json({
-      error: "Ha ocurrido un error interno al generar el anuncio."
+      error:
+        "Ha ocurrido un error interno al generar el anuncio."
     });
   }
+}
+
+
+// ===========================================================
+// LIMPIAR ENTRADAS
+// ===========================================================
+
+function cleanInput(value) {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/\u0000/g, "")
+    .trim();
+}
+
+
+// ===========================================================
+// COMPATIBILIDAD CON RESPONSES API
+// ===========================================================
+
+function extractOutputText(data) {
+  if (!Array.isArray(data?.output)) {
+    return "";
+  }
+
+  const parts = [];
+
+  for (const item of data.output) {
+    if (!Array.isArray(item?.content)) {
+      continue;
+    }
+
+    for (const content of item.content) {
+      if (
+        content?.type === "output_text" &&
+        typeof content?.text === "string"
+      ) {
+        parts.push(content.text);
+      }
+    }
+  }
+
+  return parts.join("\n").trim();
 }
