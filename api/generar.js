@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   // =========================================================
-  // MÉTODO HTTP
+  // MÉTODO
   // =========================================================
 
   if (req.method !== "POST") {
@@ -10,28 +10,32 @@ export default async function handler(req, res) {
   }
 
   // =========================================================
-  // COMPROBAR API KEY
+  // API KEY
   // =========================================================
 
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey) {
-    console.error("VendeIA: OPENAI_API_KEY no configurada.");
+    console.error(
+      "VendeIA: OPENAI_API_KEY no configurada."
+    );
 
     return res.status(500).json({
       error:
-        "La IA no está configurada todavía. Revisa la variable OPENAI_API_KEY en Vercel."
+        "La IA no está configurada todavía. Revisa OPENAI_API_KEY en Vercel."
     });
   }
 
   try {
     // =======================================================
-    // DATOS RECIBIDOS
+    // DATOS
     // =======================================================
 
     const body = req.body || {};
 
     const product = cleanInput(body.product);
+    const platform = cleanInput(body.platform) || "general";
+    const goal = cleanInput(body.goal) || "balanced";
     const category = cleanInput(body.category);
     const brand = cleanInput(body.brand);
     const condition = cleanInput(body.condition);
@@ -44,7 +48,8 @@ export default async function handler(req, res) {
 
     if (!product) {
       return res.status(400).json({
-        error: "Indica qué producto quieres vender."
+        error:
+          "Indica qué producto quieres vender."
       });
     }
 
@@ -63,35 +68,85 @@ export default async function handler(req, res) {
     }
 
     // =======================================================
+    // CONTEXTO DE PLATAFORMA
+    // =======================================================
+
+    const platformInstructions =
+      getPlatformInstructions(platform);
+
+    // =======================================================
+    // CONTEXTO DE OBJETIVO
+    // =======================================================
+
+    const goalInstructions =
+      getGoalInstructions(goal);
+
+    // =======================================================
     // PROMPT
     // =======================================================
 
     const prompt = `
-Eres VendeIA, un asistente especializado en ayudar a personas
-a vender productos de segunda mano en España.
+Eres VendeIA, un asistente especializado en ayudar
+a personas a vender productos online en España.
 
-Tu objetivo es crear anuncios claros, atractivos, naturales y
-orientados a conseguir compradores.
+Tu trabajo consiste en transformar la información
+real proporcionada por el vendedor en un anuncio
+claro, atractivo y útil para compradores.
 
-REGLAS IMPORTANTES:
+========================================================
+REGLAS PRINCIPALES
+========================================================
 
-- No inventes características.
-- No inventes accesorios.
-- No inventes especificaciones técnicas.
-- No inventes garantías.
-- No inventes defectos.
-- No inventes información que el vendedor no haya proporcionado.
-- Utiliza únicamente los datos recibidos.
-- El título debe ser atractivo y fácil de encontrar mediante búsquedas.
-- La descripción debe sonar escrita por una persona real.
-- Evita lenguaje exagerado o poco creíble.
-- No utilices frases típicas de spam.
-- No repitas innecesariamente información.
-- Utiliza español natural de España.
-- No menciones que eres una IA.
-- No añadas explicaciones fuera del formato solicitado.
+1. NO inventes información.
 
+2. NO inventes características técnicas.
+
+3. NO inventes accesorios.
+
+4. NO inventes garantías.
+
+5. NO inventes defectos.
+
+6. NO inventes fechas de compra.
+
+7. NO inventes facturas.
+
+8. NO inventes ubicación.
+
+9. NO inventes envíos.
+
+10. Si una información no ha sido proporcionada,
+no la presentes como un hecho.
+
+11. Utiliza español natural de España.
+
+12. El anuncio debe parecer escrito por una persona real.
+
+13. Evita exageraciones artificiales.
+
+14. Evita frases de spam.
+
+15. No repitas innecesariamente la misma información.
+
+16. No menciones que eres una IA.
+
+17. No expliques estas instrucciones al usuario.
+
+========================================================
+PLATAFORMA
+========================================================
+
+${platformInstructions}
+
+========================================================
+OBJETIVO DE VENTA
+========================================================
+
+${goalInstructions}
+
+========================================================
 DATOS DEL PRODUCTO
+========================================================
 
 Producto:
 ${product}
@@ -111,20 +166,55 @@ ${price || "No especificado"}
 Detalles proporcionados por el vendedor:
 ${details || "No se han proporcionado detalles adicionales."}
 
-DEVUELVE EXACTAMENTE ESTE FORMATO:
+========================================================
+ESTRUCTURA DEL ANUNCIO
+========================================================
 
 TÍTULO:
-[Un título optimizado para el anuncio]
+
+Crea un título atractivo y fácil de encontrar.
+
+Debe ser claro y relevante para el producto.
+
+No utilices palabras que no estén justificadas por
+la información proporcionada.
 
 DESCRIPCIÓN:
-[Una descripción completa, natural y convincente basada únicamente en los datos proporcionados]
+
+Escribe una descripción natural y convincente.
+
+Organiza la información de forma sencilla.
+
+Incluye las características proporcionadas por el vendedor.
+
+Si existe información sobre estado, uso, accesorios
+o motivo de venta, intégrala de forma natural.
+
+No inventes nada.
 
 PALABRAS CLAVE:
-[10 palabras o frases relevantes separadas por comas]
+
+Genera exactamente 10 palabras o frases relevantes
+para las búsquedas relacionadas con el producto.
+
+========================================================
+FORMATO DE RESPUESTA
+========================================================
+
+Devuelve ÚNICAMENTE:
+
+TÍTULO:
+[texto]
+
+DESCRIPCIÓN:
+[texto]
+
+PALABRAS CLAVE:
+[10 palabras o frases separadas por comas]
 `;
 
     // =======================================================
-    // LLAMADA A OPENAI
+    // OPENAI RESPONSES API
     // =======================================================
 
     const response = await fetch(
@@ -133,12 +223,15 @@ PALABRAS CLAVE:
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
+          "Content-Type":
+            "application/json",
+
+          "Authorization":
+            `Bearer ${apiKey}`
         },
 
         body: JSON.stringify({
-          model: "gpt-5-mini",
+          model: "gpt-5.6-luna",
           input: prompt,
           store: false
         })
@@ -146,10 +239,11 @@ PALABRAS CLAVE:
     );
 
     // =======================================================
-    // RESPUESTA DE OPENAI
+    // RESPUESTA OPENAI
     // =======================================================
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (!response.ok) {
       console.error(
@@ -157,12 +251,14 @@ PALABRAS CLAVE:
         data?.error || data
       );
 
-      const openAIMessage =
+      const message =
         data?.error?.message ||
         "OpenAI no pudo procesar la solicitud.";
 
-      return res.status(response.status).json({
-        error: openAIMessage
+      return res.status(
+        response.status
+      ).json({
+        error: message
       });
     }
 
@@ -176,7 +272,7 @@ PALABRAS CLAVE:
 
     if (!result) {
       console.error(
-        "VendeIA: OpenAI respondió sin texto.",
+        "VendeIA: respuesta sin texto.",
         data
       );
 
@@ -187,7 +283,7 @@ PALABRAS CLAVE:
     }
 
     // =======================================================
-    // RESPUESTA FINAL
+    // RESPUESTA
     // =======================================================
 
     return res.status(200).json({
@@ -209,11 +305,145 @@ PALABRAS CLAVE:
 
 
 // ===========================================================
+// INSTRUCCIONES DE PLATAFORMA
+// ===========================================================
+
+function getPlatformInstructions(platform) {
+
+  const instructions = {
+
+    general: `
+Plataforma genérica.
+
+Crea un anuncio versátil que pueda utilizarse
+en diferentes plataformas de compraventa.
+`,
+
+    wallapop: `
+La plataforma objetivo es Wallapop.
+
+Prioriza:
+- Título claro y directo.
+- Información importante rápidamente visible.
+- Lenguaje natural.
+- Palabras clave relevantes.
+- Facilidad de lectura desde móvil.
+- Evitar exceso de texto.
+`,
+
+    vinted: `
+La plataforma objetivo es Vinted.
+
+Prioriza:
+- Descripción clara.
+- Estado real del artículo.
+- Marca.
+- Características relevantes.
+- Información útil para compradores.
+- Lenguaje natural y conciso.
+`,
+
+    facebook: `
+La plataforma objetivo es Facebook Marketplace.
+
+Prioriza:
+- Título fácil de entender.
+- Información esencial al principio.
+- Descripción clara.
+- Estado.
+- Precio.
+- Información relevante para facilitar el contacto.
+`,
+
+    ebay: `
+La plataforma objetivo es eBay.
+
+Prioriza:
+- Título descriptivo.
+- Información específica del producto.
+- Características relevantes.
+- Palabras clave útiles.
+- Descripción estructurada.
+`
+  };
+
+  return (
+    instructions[platform] ||
+    instructions.general
+  );
+}
+
+
+// ===========================================================
+// INSTRUCCIONES DE OBJETIVO
+// ===========================================================
+
+function getGoalInstructions(goal) {
+
+  const instructions = {
+
+    fast: `
+El objetivo es VENDER RÁPIDO.
+
+Prioriza:
+- Claridad.
+- Información esencial.
+- Título directo.
+- Descripción fácil de leer.
+- Evitar texto innecesario.
+- Destacar las características que puedan facilitar
+  una decisión rápida.
+
+No inventes descuentos ni promociones.
+`,
+
+    balanced: `
+El objetivo es conseguir un EQUILIBRIO entre atractivo,
+claridad y precio.
+
+Prioriza:
+- Buena presentación.
+- Información suficiente.
+- Título atractivo.
+- Descripción convincente.
+- Destacar correctamente las características reales.
+`,
+
+    maximum: `
+El objetivo es intentar POSICIONAR EL PRODUCTO
+DE LA FORMA MÁS ATRACTIVA POSIBLE sin inventar
+información.
+
+Prioriza:
+- Presentación cuidada.
+- Beneficios derivados únicamente de las características
+  proporcionadas.
+- Título descriptivo.
+- Descripción completa.
+- Destacar estado y características relevantes.
+
+No afirmes que el precio es barato, caro o el mejor
+del mercado porque no dispones de datos de mercado.
+`
+  };
+
+  return (
+    instructions[goal] ||
+    instructions.balanced
+  );
+}
+
+
+// ===========================================================
 // LIMPIAR ENTRADAS
 // ===========================================================
 
 function cleanInput(value) {
-  if (value === undefined || value === null) {
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
     return "";
   }
 
@@ -224,30 +454,45 @@ function cleanInput(value) {
 
 
 // ===========================================================
-// COMPATIBILIDAD CON RESPONSES API
+// EXTRAER TEXTO DE RESPONSES API
 // ===========================================================
 
 function extractOutputText(data) {
-  if (!Array.isArray(data?.output)) {
+
+  if (
+    !Array.isArray(data?.output)
+  ) {
     return "";
   }
 
   const parts = [];
 
-  for (const item of data.output) {
-    if (!Array.isArray(item?.content)) {
+  for (
+    const item of data.output
+  ) {
+
+    if (
+      !Array.isArray(item?.content)
+    ) {
       continue;
     }
 
-    for (const content of item.content) {
+    for (
+      const content of item.content
+    ) {
+
       if (
         content?.type === "output_text" &&
         typeof content?.text === "string"
       ) {
-        parts.push(content.text);
+        parts.push(
+          content.text
+        );
       }
     }
   }
 
-  return parts.join("\n").trim();
+  return parts
+    .join("\n")
+    .trim();
 }
