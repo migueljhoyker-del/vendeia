@@ -1,155 +1,285 @@
-export default async function handler(req, res) {
-  // =========================================================
-  // MÉTODO
-  // =========================================================
+"use strict";
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Método no permitido."
+export default async function handler(
+  req,
+  res
+) {
+
+  if (
+    req.method !==
+    "POST"
+  ) {
+
+    return res.status(
+      405
+    ).json({
+      error:
+        "Método no permitido."
     });
   }
 
-  // =========================================================
-  // API KEY
-  // =========================================================
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey =
+    process.env.OPENAI_API_KEY;
+
 
   if (!apiKey) {
+
     console.error(
       "VendeIA: OPENAI_API_KEY no configurada."
     );
 
-    return res.status(500).json({
+    return res.status(
+      500
+    ).json({
       error:
         "La IA no está configurada todavía. Revisa OPENAI_API_KEY en Vercel."
     });
   }
 
+
   try {
-    // =======================================================
-    // DATOS
-    // =======================================================
 
-    const body = req.body || {};
+    const body =
+      req.body || {};
 
-    const product = cleanInput(body.product);
-    const platform = cleanInput(body.platform) || "general";
-    const goal = cleanInput(body.goal) || "balanced";
-    const category = cleanInput(body.category);
-    const brand = cleanInput(body.brand);
-    const condition = cleanInput(body.condition);
-    const price = cleanInput(body.price);
-    const details = cleanInput(body.details);
 
-    // =======================================================
-    // VALIDACIÓN
-    // =======================================================
+    const product =
+      cleanInput(
+        body.product
+      );
+
+    const platform =
+      cleanInput(
+        body.platform
+      ) ||
+      "general";
+
+    const goal =
+      cleanInput(
+        body.goal
+      ) ||
+      "balanced";
+
+    const category =
+      cleanInput(
+        body.category
+      );
+
+    const brand =
+      cleanInput(
+        body.brand
+      );
+
+    const condition =
+      cleanInput(
+        body.condition
+      );
+
+    const price =
+      cleanInput(
+        body.price
+      );
+
+    const details =
+      cleanInput(
+        body.details
+      );
+
+
+    /* =====================================================
+       VALIDATION
+    ====================================================== */
 
     if (!product) {
-      return res.status(400).json({
+
+      return res.status(
+        400
+      ).json({
         error:
           "Indica qué producto quieres vender."
       });
     }
 
-    if (product.length > 200) {
-      return res.status(400).json({
+
+    if (
+      product.length >
+      200
+    ) {
+
+      return res.status(
+        400
+      ).json({
         error:
           "El nombre del producto es demasiado largo."
       });
     }
 
-    if (details.length > 5000) {
-      return res.status(400).json({
+
+    if (
+      details.length >
+      5000
+    ) {
+
+      return res.status(
+        400
+      ).json({
         error:
           "Los detalles del producto no pueden superar los 5.000 caracteres."
       });
     }
 
-    // =======================================================
-    // CONTEXTO DE PLATAFORMA
-    // =======================================================
+
+    /* =====================================================
+       IMAGES
+    ====================================================== */
+
+    const rawImages =
+      Array.isArray(
+        body.images
+      )
+        ? body.images
+        : [];
+
+
+    if (
+      rawImages.length >
+      6
+    ) {
+
+      return res.status(
+        400
+      ).json({
+        error:
+          "Puedes enviar un máximo de 6 fotografías."
+      });
+    }
+
+
+    const images =
+      normalizeImages(
+        rawImages
+      );
+
+
+    if (
+      images.error
+    ) {
+
+      return res.status(
+        400
+      ).json({
+        error:
+          images.error
+      });
+    }
+
+
+    const validImages =
+      images.items;
+
 
     const platformInstructions =
-      getPlatformInstructions(platform);
+      getPlatformInstructions(
+        platform
+      );
 
-    // =======================================================
-    // CONTEXTO DE OBJETIVO
-    // =======================================================
 
     const goalInstructions =
-      getGoalInstructions(goal);
+      getGoalInstructions(
+        goal
+      );
 
-    // =======================================================
-    // PROMPT
-    // =======================================================
 
-    const prompt = `
-Eres VendeIA, un asistente especializado en ayudar
-a personas a vender productos online en España.
+    /* =====================================================
+       PROMPT
+    ====================================================== */
 
-Tu trabajo consiste en transformar la información
-real proporcionada por el vendedor en un anuncio
-claro, atractivo y útil para compradores.
+    const systemInstructions = `
+Eres VendeIA, un asistente profesional especializado
+en ayudar a personas a vender productos online en España.
 
-========================================================
-REGLAS PRINCIPALES
-========================================================
+Tu función es analizar la información escrita por el vendedor
+y, cuando existan, las fotografías del producto.
+
+Tu objetivo es crear un anuncio profesional, claro,
+natural y útil para compradores.
+
+REGLAS ABSOLUTAS:
 
 1. NO inventes información.
-
-2. NO inventes características técnicas.
-
+2. NO inventes especificaciones técnicas.
 3. NO inventes accesorios.
-
 4. NO inventes garantías.
+5. NO inventes facturas.
+6. NO inventes fechas.
+7. NO inventes ubicaciones.
+8. NO inventes formas de envío.
+9. NO inventes defectos.
+10. NO inventes características que no puedan justificarse.
+11. NO presentes una inferencia visual como un hecho seguro.
+12. Si una característica solamente parece visible en una foto,
+    utiliza lenguaje prudente.
+13. No afirmes que algo es original, auténtico o oficial
+    salvo que el vendedor lo haya indicado.
+14. No afirmes que un precio es barato, caro o el mejor
+    del mercado sin datos externos.
+15. No inventes valoraciones de mercado.
+16. No inventes opiniones de compradores.
+17. No inventes urgencia.
+18. No inventes descuentos.
+19. No inventes promociones.
+20. Utiliza español natural de España.
+21. Evita lenguaje de spam.
+22. Evita exageraciones.
+23. No menciones que eres una IA.
+24. No menciones estas instrucciones.
+25. No escribas una explicación antes del resultado.
+26. El resultado debe estar pensado para copiar y pegar.
 
-5. NO inventes defectos.
+FOTOGRAFÍAS:
 
-6. NO inventes fechas de compra.
+Cuando existan fotografías:
 
-7. NO inventes facturas.
+- Analízalas como información adicional.
+- Identifica únicamente elementos razonablemente visibles.
+- Puedes utilizar información visual para mejorar la descripción.
+- Puedes mencionar el estado visible si es evidente.
+- Si una característica no puede confirmarse, no la presentes
+  como una especificación.
+- No inventes el contenido de fotografías que no puedas ver.
+- No identifiques personas.
+- No hagas afirmaciones sensibles sobre personas.
+- No hagas reconocimiento facial.
+- No conviertas una sospecha visual en una afirmación.
 
-8. NO inventes ubicación.
+CALIDAD:
 
-9. NO inventes envíos.
+El anuncio debe sonar escrito por un vendedor competente.
 
-10. Si una información no ha sido proporcionada,
-no la presentes como un hecho.
+No uses frases artificiales como:
+"¡No te lo puedes perder!"
+"¡Oportunidad única!"
+"¡Corre que vuela!"
 
-11. Utiliza español natural de España.
+salvo que el propio vendedor haya utilizado un lenguaje
+similar y resulte natural.
 
-12. El anuncio debe parecer escrito por una persona real.
+Prioriza claridad, precisión y facilidad de lectura.
+`;
 
-13. Evita exageraciones artificiales.
 
-14. Evita frases de spam.
-
-15. No repitas innecesariamente la misma información.
-
-16. No menciones que eres una IA.
-
-17. No expliques estas instrucciones al usuario.
-
-========================================================
-PLATAFORMA
-========================================================
-
-${platformInstructions}
-
-========================================================
-OBJETIVO DE VENTA
-========================================================
-
-${goalInstructions}
-
-========================================================
+    const userText = `
 DATOS DEL PRODUCTO
-========================================================
 
 Producto:
 ${product}
+
+Plataforma:
+${platform}
+
+Objetivo:
+${goal}
 
 Categoría:
 ${category || "No especificada"}
@@ -157,146 +287,311 @@ ${category || "No especificada"}
 Marca:
 ${brand || "No especificada"}
 
-Estado:
+Estado indicado por el vendedor:
 ${condition || "No especificado"}
 
-Precio:
+Precio indicado:
 ${price || "No especificado"}
 
-Detalles proporcionados por el vendedor:
-${details || "No se han proporcionado detalles adicionales."}
+Detalles escritos por el vendedor:
+${details || "No hay detalles adicionales."}
 
-========================================================
-ESTRUCTURA DEL ANUNCIO
-========================================================
 
-TÍTULO:
+PLATAFORMA
 
-Crea un título atractivo y fácil de encontrar.
+${platformInstructions}
 
-Debe ser claro y relevante para el producto.
 
-No utilices palabras que no estén justificadas por
-la información proporcionada.
+OBJETIVO
 
-DESCRIPCIÓN:
+${goalInstructions}
 
-Escribe una descripción natural y convincente.
 
-Organiza la información de forma sencilla.
+TAREA
 
-Incluye las características proporcionadas por el vendedor.
+Analiza toda la información proporcionada.
 
-Si existe información sobre estado, uso, accesorios
-o motivo de venta, intégrala de forma natural.
+Si existen fotografías, utiliza también la información
+visual que pueda observarse razonablemente.
 
-No inventes nada.
+Genera:
 
-PALABRAS CLAVE:
+1. Un título atractivo y fácil de buscar.
+2. Una descripción profesional y natural.
+3. Exactamente 10 palabras o frases clave.
+4. Un pequeño análisis visual únicamente si se proporcionaron
+   fotografías.
 
-Genera exactamente 10 palabras o frases relevantes
-para las búsquedas relacionadas con el producto.
+IMPORTANTE:
 
-========================================================
-FORMATO DE RESPUESTA
-========================================================
+No inventes información.
 
-Devuelve ÚNICAMENTE:
+Devuelve ÚNICAMENTE un JSON válido con esta estructura:
 
-TÍTULO:
-[texto]
+{
+  "title": "Título del anuncio",
+  "description": "Descripción del anuncio",
+  "keywords": [
+    "palabra 1",
+    "palabra 2",
+    "palabra 3",
+    "palabra 4",
+    "palabra 5",
+    "palabra 6",
+    "palabra 7",
+    "palabra 8",
+    "palabra 9",
+    "palabra 10"
+  ],
+  "visualAnalysis": "Análisis visual breve o cadena vacía"
+}
 
-DESCRIPCIÓN:
-[texto]
-
-PALABRAS CLAVE:
-[10 palabras o frases separadas por comas]
+No utilices Markdown.
+No utilices bloques de código.
+No añadas texto fuera del JSON.
 `;
 
-    // =======================================================
-    // OPENAI RESPONSES API
-    // =======================================================
 
-    const response = await fetch(
-      "https://api.openai.com/v1/responses",
+    /* =====================================================
+       MULTIMODAL INPUT
+    ====================================================== */
+
+    const content = [
+
       {
-        method: "POST",
+        type:
+          "input_text",
 
-        headers: {
-          "Content-Type":
-            "application/json",
-
-          "Authorization":
-            `Bearer ${apiKey}`
-        },
-
-        body: JSON.stringify({
-          model: "gpt-5.6-luna",
-          input: prompt,
-          store: false
-        })
+        text:
+          userText
       }
-    );
 
-    // =======================================================
-    // RESPUESTA OPENAI
-    // =======================================================
+    ];
+
+
+    for (
+      const image of validImages
+    ) {
+
+      content.push({
+
+        type:
+          "input_image",
+
+        image_url:
+          image.dataUrl,
+
+        detail:
+          "auto"
+
+      });
+    }
+
+
+    /* =====================================================
+       OPENAI
+    ====================================================== */
+
+    const response =
+      await fetch(
+        "https://api.openai.com/v1/responses",
+        {
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              `Bearer ${apiKey}`
+
+          },
+
+          body:
+            JSON.stringify({
+
+              model:
+                "gpt-5.6-luna",
+
+              input: [
+
+                {
+                  role:
+                    "developer",
+
+                  content:
+                    systemInstructions
+                },
+
+                {
+                  role:
+                    "user",
+
+                  content
+                }
+
+              ],
+
+              store:
+                false
+
+            })
+
+        }
+      );
+
 
     const data =
       await response.json();
 
-    if (!response.ok) {
+
+    /* =====================================================
+       OPENAI ERROR
+    ====================================================== */
+
+    if (
+      !response.ok
+    ) {
+
       console.error(
         "VendeIA / OpenAI:",
-        data?.error || data
-      );
-
-      const message =
-        data?.error?.message ||
-        "OpenAI no pudo procesar la solicitud.";
-
-      return res.status(
-        response.status
-      ).json({
-        error: message
-      });
-    }
-
-    // =======================================================
-    // EXTRAER TEXTO
-    // =======================================================
-
-    const result =
-      data?.output_text ||
-      extractOutputText(data);
-
-    if (!result) {
-      console.error(
-        "VendeIA: respuesta sin texto.",
+        data?.error ||
         data
       );
 
-      return res.status(502).json({
+
+      const status =
+        response.status >= 400 &&
+        response.status <= 599
+          ? response.status
+          : 502;
+
+
+      let message =
+        data?.error?.message ||
+        "OpenAI no pudo procesar la solicitud.";
+
+
+      if (
+        status === 401
+      ) {
+
+        message =
+          "La clave de OpenAI no es válida o no está configurada correctamente en Vercel.";
+
+      } else if (
+        status === 429
+      ) {
+
+        message =
+          "OpenAI ha rechazado temporalmente la solicitud. Comprueba el saldo, límites o facturación de la API.";
+
+      } else if (
+        status === 400
+      ) {
+
+        message =
+          data?.error?.message ||
+          "OpenAI rechazó los datos enviados.";
+
+      }
+
+
+      return res.status(
+        status
+      ).json({
+        error:
+          message
+      });
+    }
+
+
+    /* =====================================================
+       EXTRACT OUTPUT
+    ====================================================== */
+
+    const outputText =
+      data?.output_text ||
+      extractOutputText(
+        data
+      );
+
+
+    if (!outputText) {
+
+      console.error(
+        "VendeIA: OpenAI respondió sin texto.",
+        data
+      );
+
+      return res.status(
+        502
+      ).json({
         error:
           "La IA respondió correctamente, pero no devolvió ningún anuncio."
       });
     }
 
-    // =======================================================
-    // RESPUESTA
-    // =======================================================
 
-    return res.status(200).json({
-      result: result.trim()
-    });
+    /* =====================================================
+       PARSE JSON
+    ====================================================== */
+
+    const result =
+      parseModelJson(
+        outputText
+      );
+
+
+    if (
+      !result
+    ) {
+
+      console.error(
+        "VendeIA: JSON inválido:",
+        outputText
+      );
+
+
+      return res.status(
+        502
+      ).json({
+        error:
+          "La IA devolvió una respuesta que no pudo interpretarse correctamente."
+      });
+    }
+
+
+    /* =====================================================
+       SANITIZE RESULT
+    ====================================================== */
+
+    const cleanResult =
+      sanitizeResult(
+        result
+      );
+
+
+    return res.status(
+      200
+    ).json(
+      cleanResult
+    );
+
 
   } catch (error) {
+
     console.error(
       "VendeIA / Error interno:",
       error
     );
 
-    return res.status(500).json({
+
+    return res.status(
+      500
+    ).json({
       error:
         "Ha ocurrido un error interno al generar el anuncio."
     });
@@ -304,68 +599,170 @@ PALABRAS CLAVE:
 }
 
 
-// ===========================================================
-// INSTRUCCIONES DE PLATAFORMA
-// ===========================================================
+/* =========================================================
+   IMAGE NORMALIZATION
+========================================================= */
 
-function getPlatformInstructions(platform) {
+function normalizeImages(
+  rawImages
+) {
+
+  const items = [];
+
+  for (
+    const item of rawImages
+  ) {
+
+    if (
+      !item ||
+      typeof item !==
+        "object"
+    ) {
+      continue;
+    }
+
+
+    const dataUrl =
+      typeof item.dataUrl ===
+        "string"
+        ? item.dataUrl.trim()
+        : "";
+
+
+    if (!dataUrl) {
+      continue;
+    }
+
+
+    if (
+      !/^data:image\/(jpeg|jpg|png|webp);base64,/i.test(
+        dataUrl
+      )
+    ) {
+
+      return {
+        error:
+          "Una de las fotografías tiene un formato no válido.",
+        items: []
+      };
+    }
+
+
+    if (
+      dataUrl.length >
+      1_400_000
+    ) {
+
+      return {
+        error:
+          "Una de las fotografías es demasiado grande.",
+        items: []
+      };
+    }
+
+
+    items.push({
+      dataUrl
+    });
+  }
+
+
+  const totalLength =
+    items.reduce(
+      (
+        total,
+        image
+      ) =>
+        total +
+        image.dataUrl.length,
+      0
+    );
+
+
+  if (
+    totalLength >
+    4_000_000
+  ) {
+
+    return {
+      error:
+        "El conjunto de fotografías es demasiado grande. Elimina alguna fotografía e inténtalo de nuevo.",
+      items: []
+    };
+  }
+
+
+  return {
+    error:
+      null,
+
+    items
+  };
+}
+
+
+/* =========================================================
+   PLATFORM
+========================================================= */
+
+function getPlatformInstructions(
+  platform
+) {
 
   const instructions = {
 
     general: `
-Plataforma genérica.
-
-Crea un anuncio versátil que pueda utilizarse
-en diferentes plataformas de compraventa.
+Crea un anuncio versátil para plataformas de compraventa.
+Prioriza claridad, lectura móvil, información real y
+palabras clave naturales.
 `,
 
     wallapop: `
 La plataforma objetivo es Wallapop.
 
 Prioriza:
-- Título claro y directo.
-- Información importante rápidamente visible.
-- Lenguaje natural.
-- Palabras clave relevantes.
-- Facilidad de lectura desde móvil.
-- Evitar exceso de texto.
+- título claro;
+- información esencial;
+- lenguaje natural;
+- lectura rápida desde móvil;
+- palabras clave relevantes;
+- evitar exceso de texto.
 `,
 
     vinted: `
 La plataforma objetivo es Vinted.
 
 Prioriza:
-- Descripción clara.
-- Estado real del artículo.
-- Marca.
-- Características relevantes.
-- Información útil para compradores.
-- Lenguaje natural y conciso.
+- descripción concisa;
+- marca;
+- estado;
+- características;
+- información útil para compradores.
 `,
 
     facebook: `
 La plataforma objetivo es Facebook Marketplace.
 
 Prioriza:
-- Título fácil de entender.
-- Información esencial al principio.
-- Descripción clara.
-- Estado.
-- Precio.
-- Información relevante para facilitar el contacto.
+- título comprensible;
+- información esencial al principio;
+- estado;
+- precio;
+- descripción clara.
 `,
 
     ebay: `
 La plataforma objetivo es eBay.
 
 Prioriza:
-- Título descriptivo.
-- Información específica del producto.
-- Características relevantes.
-- Palabras clave útiles.
-- Descripción estructurada.
+- título descriptivo;
+- características;
+- información específica;
+- palabras clave;
+- estructura clara.
 `
   };
+
 
   return (
     instructions[platform] ||
@@ -374,58 +771,36 @@ Prioriza:
 }
 
 
-// ===========================================================
-// INSTRUCCIONES DE OBJETIVO
-// ===========================================================
+/* =========================================================
+   GOAL
+========================================================= */
 
-function getGoalInstructions(goal) {
+function getGoalInstructions(
+  goal
+) {
 
   const instructions = {
 
     fast: `
-El objetivo es VENDER RÁPIDO.
+El objetivo es vender rápido.
 
-Prioriza:
-- Claridad.
-- Información esencial.
-- Título directo.
-- Descripción fácil de leer.
-- Evitar texto innecesario.
-- Destacar las características que puedan facilitar
-  una decisión rápida.
+Prioriza claridad, información esencial y facilidad
+de decisión.
 
-No inventes descuentos ni promociones.
+No inventes descuentos ni urgencia.
 `,
 
     balanced: `
-El objetivo es conseguir un EQUILIBRIO entre atractivo,
-claridad y precio.
-
-Prioriza:
-- Buena presentación.
-- Información suficiente.
-- Título atractivo.
-- Descripción convincente.
-- Destacar correctamente las características reales.
+El objetivo es equilibrar atractivo, claridad y
+presentación profesional.
 `,
 
     maximum: `
-El objetivo es intentar POSICIONAR EL PRODUCTO
-DE LA FORMA MÁS ATRACTIVA POSIBLE sin inventar
-información.
-
-Prioriza:
-- Presentación cuidada.
-- Beneficios derivados únicamente de las características
-  proporcionadas.
-- Título descriptivo.
-- Descripción completa.
-- Destacar estado y características relevantes.
-
-No afirmes que el precio es barato, caro o el mejor
-del mercado porque no dispones de datos de mercado.
+El objetivo es presentar el producto de la forma
+más completa y atractiva posible sin inventar información.
 `
   };
+
 
   return (
     instructions[goal] ||
@@ -434,57 +809,78 @@ del mercado porque no dispones de datos de mercado.
 }
 
 
-// ===========================================================
-// LIMPIAR ENTRADAS
-// ===========================================================
+/* =========================================================
+   INPUT CLEANING
+========================================================= */
 
-function cleanInput(value) {
+function cleanInput(
+  value
+) {
 
   if (
     value === undefined ||
     value === null
   ) {
+
     return "";
   }
 
+
   return String(value)
-    .replace(/\u0000/g, "")
+    .replace(
+      /\u0000/g,
+      ""
+    )
     .trim();
 }
 
 
-// ===========================================================
-// EXTRAER TEXTO DE RESPONSES API
-// ===========================================================
+/* =========================================================
+   OUTPUT TEXT
+========================================================= */
 
-function extractOutputText(data) {
+function extractOutputText(
+  data
+) {
 
   if (
-    !Array.isArray(data?.output)
+    !Array.isArray(
+      data?.output
+    )
   ) {
+
     return "";
   }
 
+
   const parts = [];
+
 
   for (
     const item of data.output
   ) {
 
     if (
-      !Array.isArray(item?.content)
+      !Array.isArray(
+        item?.content
+      )
     ) {
+
       continue;
     }
+
 
     for (
       const content of item.content
     ) {
 
       if (
-        content?.type === "output_text" &&
-        typeof content?.text === "string"
+        content?.type ===
+          "output_text" &&
+        typeof content?.text ===
+          "string"
       ) {
+
         parts.push(
           content.text
         );
@@ -492,7 +888,170 @@ function extractOutputText(data) {
     }
   }
 
+
   return parts
     .join("\n")
     .trim();
+}
+
+
+/* =========================================================
+   JSON PARSER
+========================================================= */
+
+function parseModelJson(
+  text
+) {
+
+  const cleaned =
+    String(text)
+      .trim();
+
+
+  try {
+
+    return JSON.parse(
+      cleaned
+    );
+
+  } catch {
+    // Continue.
+  }
+
+
+  const withoutMarkdown =
+    cleaned
+      .replace(
+        /^```(?:json)?/i,
+        ""
+      )
+      .replace(
+        /```$/i,
+        ""
+      )
+      .trim();
+
+
+  try {
+
+    return JSON.parse(
+      withoutMarkdown
+    );
+
+  } catch {
+    // Continue.
+  }
+
+
+  const firstBrace =
+    withoutMarkdown.indexOf(
+      "{"
+    );
+
+  const lastBrace =
+    withoutMarkdown.lastIndexOf(
+      "}"
+    );
+
+
+  if (
+    firstBrace !== -1 &&
+    lastBrace > firstBrace
+  ) {
+
+    const possibleJson =
+      withoutMarkdown.slice(
+        firstBrace,
+        lastBrace + 1
+      );
+
+
+    try {
+
+      return JSON.parse(
+        possibleJson
+      );
+
+    } catch {
+      return null;
+    }
+  }
+
+
+  return null;
+}
+
+
+/* =========================================================
+   RESULT SANITIZATION
+========================================================= */
+
+function sanitizeResult(
+  result
+) {
+
+  const title =
+    cleanInput(
+      result?.title
+    );
+
+
+  const description =
+    cleanInput(
+      result?.description
+    );
+
+
+  let keywords =
+    Array.isArray(
+      result?.keywords
+    )
+      ? result.keywords
+      : [];
+
+
+  keywords =
+    keywords
+      .map(
+        (keyword) =>
+          cleanInput(
+            keyword
+          )
+      )
+      .filter(Boolean)
+      .slice(0, 10);
+
+
+  while (
+    keywords.length <
+    10
+  ) {
+
+    keywords.push(
+      ""
+    );
+  }
+
+
+  const visualAnalysis =
+    cleanInput(
+      result?.visualAnalysis
+    );
+
+
+  return {
+
+    title:
+      title ||
+      "Anuncio sin título.",
+
+    description:
+      description ||
+      "No se pudo generar una descripción.",
+
+    keywords,
+
+    visualAnalysis:
+      visualAnalysis
+  };
 }
