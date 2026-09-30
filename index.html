@@ -1,1833 +1,329 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="VendeIA transforma la información y fotografías de tus productos en anuncios profesionales para vender online."
-  >
-
-  <meta
-    name="theme-color"
-    content="#060912"
-  >
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="VendeIA: crea anuncios de segunda mano con IA, analiza fotos, optimiza precios, genera hashtags y responde a compradores.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="VendeIA — Vende mejor con IA">
+  <meta property="og:description" content="Tu asistente de IA para vender mejor online.">
   <title>VendeIA — Vende mejor con IA</title>
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="/css/styles.css"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
-
 <body>
+  <div class="site-noise" aria-hidden="true"></div>
 
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
-
-  <header class="site-header">
-
-    <div class="container header-inner">
-
-      <a
-        href="#inicio"
-        class="brand"
-        aria-label="VendeIA inicio"
-      >
-
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="VendeIA inicio">
         <span class="brand-mark">V</span>
-
-        <span class="brand-name">
-          Vende<span>IA</span>
-        </span>
-
+        <span>Vende<span>IA</span></span>
       </a>
-
-      <nav
-        class="main-nav"
-        aria-label="Navegación principal"
-      >
-
-        <a href="#como-funciona">
-          Cómo funciona
-        </a>
-
-        <a href="#generador">
-          Generador
-        </a>
-
-        <a href="#funciones">
-          Funciones
-        </a>
-
-        <a href="#faq">
-          FAQ
-        </a>
-
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#generador">Generador</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#faq">FAQ</a>
       </nav>
-
-      <a
-        href="#generador"
-        class="header-cta"
-      >
-        Crear anuncio
-      </a>
-
+      <a class="button button-small button-primary" href="#generador">Probar ahora</a>
     </div>
-
   </header>
 
-
   <main>
-
-    <!-- ===================================================
-         HERO
-    ==================================================== -->
-
-    <section
-      id="inicio"
-      class="hero-section"
-    >
-
+    <section class="hero section-space">
       <div class="container hero-grid">
-
         <div class="hero-copy">
-
-          <span class="eyebrow">
-            <span class="status-dot"></span>
-            IA para vendedores
-          </span>
-
-          <h1>
-            Convierte cualquier producto en un anuncio que
-            <span class="gradient-text">
-              parece profesional.
-            </span>
-          </h1>
-
-          <p class="hero-description">
-            Describe tu producto, añade tus fotografías y deja
-            que VendeIA prepare un anuncio claro, atractivo y
-            adaptado a plataformas de compraventa.
-          </p>
-
+          <div class="eyebrow"><span class="status-dot"></span> IA para vendedores online</div>
+          <h1>Vende mejor.<br><span>Con menos esfuerzo.</span></h1>
+          <p class="hero-lead">VendeIA convierte la información y las fotos de tu producto en un anuncio completo, claro y preparado para vender.</p>
           <div class="hero-actions">
-
-            <a
-              href="#generador"
-              class="button button-primary button-large"
-            >
-              Crear mi anuncio
-              <span>→</span>
-            </a>
-
-            <a
-              href="#como-funciona"
-              class="button button-secondary button-large"
-            >
-              Ver cómo funciona
-            </a>
-
+            <a class="button button-primary" href="#generador">Crear mi anuncio <span>→</span></a>
+            <a class="button button-ghost" href="#como-funciona">Ver cómo funciona</a>
           </div>
-
           <div class="hero-trust">
-
-            <div>
-              <strong>Texto + fotos</strong>
-              <span>Una sola herramienta</span>
-            </div>
-
-            <div>
-              <strong>Sin inventar</strong>
-              <span>Basado en tus datos</span>
-            </div>
-
-            <div>
-              <strong>Multiplataforma</strong>
-              <span>Wallapop y más</span>
-            </div>
-
+            <span>✓ Sin instalar nada</span>
+            <span>✓ Pensado para móvil</span>
+            <span>✓ No inventa datos</span>
           </div>
-
         </div>
 
-
-        <!-- DEMO -->
-
-        <div class="hero-demo">
-
-          <div class="demo-window">
-
-            <div class="demo-window-header">
-
-              <div class="window-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-
-              <span class="demo-window-title">
-                VendeIA
-              </span>
-
-              <span class="demo-live">
-                ● IA ACTIVA
-              </span>
-
+        <div class="hero-visual">
+          <div class="glow glow-one"></div>
+          <div class="glow glow-two"></div>
+          <div class="demo-window glass-card">
+            <div class="window-bar">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span>VendeIA Engine</span>
+              <span class="window-live">LIVE</span>
             </div>
-
-            <div class="demo-content">
-
-              <span class="demo-label">
-                PRODUCTO
-              </span>
-
-              <div class="demo-product">
-
-                <div class="demo-product-icon">
-                  ✦
-                </div>
-
-                <div>
-                  <strong>
-                    Aire acondicionado portátil
-                  </strong>
-
-                  <span>
-                    Carrefour Home · Como nuevo
-                  </span>
-                </div>
-
+            <div class="demo-body">
+              <div class="demo-input-card">
+                <div class="mini-label">PRODUCTO</div>
+                <strong>iPhone 15 128 GB</strong>
+                <span>Como nuevo · 650 €</span>
               </div>
-
-              <div class="demo-divider"></div>
-
-              <span class="demo-label">
-                RESULTADO
-              </span>
-
+              <div class="demo-flow">
+                <div class="flow-line"></div>
+                <div class="flow-node active"><span>1</span><b>Analiza</b></div>
+                <div class="flow-node"><span>2</span><b>Optimiza</b></div>
+                <div class="flow-node"><span>3</span><b>Publica</b></div>
+              </div>
               <div class="demo-result">
-
-                <strong>
-                  Aire acondicionado portátil Carrefour Home
-                  HMAC12J — Como nuevo
-                </strong>
-
-                <p>
-                  Prácticamente nuevo y utilizado únicamente
-                  dos veces. Una opción práctica para climatizar
-                  distintas estancias de la vivienda.
-                </p>
-
-                <div class="demo-tags">
-                  <span>aire acondicionado</span>
-                  <span>portátil</span>
-                  <span>Carrefour Home</span>
-                  <span>HMAC12J</span>
-                </div>
-
+                <div class="mini-label">RESULTADO</div>
+                <h3>iPhone 15 128 GB · Como nuevo</h3>
+                <p>Descripción optimizada, palabras clave y estrategia de publicación.</p>
+                <div class="demo-tags"><span>#iPhone15</span><span>#Apple</span><span>#128GB</span></div>
               </div>
-
-              <div class="demo-footer">
-                <span>
-                  Generado con VendeIA
-                </span>
-
-                <span>
-                  ✓ Listo para copiar
-                </span>
-              </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         PROBLEM
-    ==================================================== -->
-
-    <section class="problem-section">
-
+    <section class="problem section-space" id="como-funciona">
       <div class="container">
-
         <div class="section-heading centered">
-
-          <span class="section-kicker">
-            El problema
-          </span>
-
-          <h2>
-            Vender online debería ser mucho más sencillo.
-          </h2>
-
-          <p>
-            El producto puede ser bueno. Lo difícil es presentarlo
-            correctamente, encontrar las palabras adecuadas y
-            ahorrar tiempo.
-          </p>
-
+          <div class="eyebrow">EL PROBLEMA</div>
+          <h2>Vender online no debería ser un trabajo.</h2>
+          <p>Una buena publicación necesita mucho más que escribir dos líneas.</p>
         </div>
-
-
         <div class="problem-grid">
-
-          <article class="problem-card">
-
-            <div class="problem-icon">
-              01
-            </div>
-
-            <h3>
-              No sabes qué escribir
-            </h3>
-
-            <p>
-              Pasas demasiado tiempo pensando en títulos,
-              descripciones y palabras clave.
-            </p>
-
-          </article>
-
-
-          <article class="problem-card">
-
-            <div class="problem-icon">
-              02
-            </div>
-
-            <h3>
-              Tus anuncios se parecen demasiado
-            </h3>
-
-            <p>
-              Una descripción genérica no explica bien por qué
-              alguien debería interesarse por tu producto.
-            </p>
-
-          </article>
-
-
-          <article class="problem-card">
-
-            <div class="problem-icon">
-              03
-            </div>
-
-            <h3>
-              Las fotografías contienen información
-            </h3>
-
-            <p>
-              Muchas veces el producto, su estado y determinados
-              detalles ya están delante de ti en las fotografías.
-            </p>
-
-          </article>
-
+          <article class="info-card"><span class="card-number">01</span><h3>No sabes qué poner</h3><p>Te quedas en blanco al escribir el título y la descripción.</p></article>
+          <article class="info-card"><span class="card-number">02</span><h3>No sabes cuánto pedir</h3><p>El precio puede marcar la diferencia entre vender o quedarse meses publicado.</p></article>
+          <article class="info-card"><span class="card-number">03</span><h3>No sabes si tus fotos ayudan</h3><p>Una mala presentación puede hacer que un buen producto pase desapercibido.</p></article>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         ABOUT
-    ==================================================== -->
-
-    <section class="about-section">
-
-      <div class="container about-grid">
-
-        <div class="about-copy">
-
-          <span class="section-kicker">
-            Qué es VendeIA
-          </span>
-
-          <h2>
-            Un asistente para vender.
-            No solamente un generador de texto.
-          </h2>
-
-          <p>
-            VendeIA está diseñado alrededor del proceso real de
-            publicar productos: información, fotografías,
-            presentación y comunicación con compradores.
-          </p>
-
-          <p>
-            La primera versión empieza por algo fundamental:
-            <strong>crear anuncios mejores en menos tiempo.</strong>
-          </p>
-
+    <section class="about section-space">
+      <div class="container split-grid">
+        <div>
+          <div class="eyebrow">QUÉ ES VENDEIA</div>
+          <h2>Un asistente para todo el proceso de venta.</h2>
         </div>
-
-
-        <div class="about-panel">
-
-          <div class="about-panel-glow"></div>
-
-          <div class="about-panel-top">
-
-            <span>
-              VendeIA ENGINE
-            </span>
-
-            <span>
-              ONLINE
-            </span>
-
-          </div>
-
-
-          <div class="engine-flow">
-
-            <div class="engine-step">
-
-              <span>
-                01
-              </span>
-
-              <strong>
-                Producto
-              </strong>
-
-              <small>
-                Datos reales
-              </small>
-
-            </div>
-
-            <div class="engine-line"></div>
-
-            <div class="engine-step active">
-
-              <span>
-                02
-              </span>
-
-              <strong>
-                IA
-              </strong>
-
-              <small>
-                Análisis
-              </small>
-
-            </div>
-
-            <div class="engine-line"></div>
-
-            <div class="engine-step">
-
-              <span>
-                03
-              </span>
-
-              <strong>
-                Anuncio
-              </strong>
-
-              <small>
-                Listo
-              </small>
-
-            </div>
-
-          </div>
-
+        <div>
+          <p class="large-copy">VendeIA no se limita a escribir textos. Analiza el contexto de tu producto, puede interpretar tus fotografías, ayudarte con el precio, preparar respuestas y revisar el anuncio antes de publicarlo.</p>
+          <p class="muted-copy">La tecnología trabaja para que tú tomes la decisión final.</p>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         HOW IT WORKS
-    ==================================================== -->
-
-    <section
-      id="como-funciona"
-      class="steps-section"
-    >
-
+    <section class="engine section-space">
       <div class="container">
-
-        <div class="section-heading centered">
-
-          <span class="section-kicker">
-            Cómo funciona
-          </span>
-
-          <h2>
-            De producto a anuncio en unos segundos.
-          </h2>
-
-          <p>
-            Cuatro pasos sencillos. Sin aprender marketing,
-            copywriting ni técnicas complicadas.
-          </p>
-
+        <div class="section-heading">
+          <div class="eyebrow">EL MOTOR</div>
+          <h2>De producto a anuncio en segundos.</h2>
         </div>
+        <div class="engine-grid">
+          <div class="engine-step"><span>01</span><h3>Entrada</h3><p>Producto, estado, precio, detalles y fotografías.</p></div>
+          <div class="engine-connector"></div>
+          <div class="engine-step"><span>02</span><h3>Inteligencia</h3><p>Visión, lenguaje y búsqueda web cuando hace falta contexto de mercado.</p></div>
+          <div class="engine-connector"></div>
+          <div class="engine-step"><span>03</span><h3>Resultado</h3><p>Contenido listo para revisar, copiar y publicar.</p></div>
+        </div>
+      </div>
+    </section>
 
-
+    <section class="steps section-space">
+      <div class="container">
+        <div class="section-heading centered">
+          <div class="eyebrow">CÓMO FUNCIONA</div>
+          <h2>Un flujo sencillo.</h2>
+        </div>
         <div class="steps-grid">
-
-          <article class="step-card">
-
-            <span class="step-number">
-              01
-            </span>
-
-            <div class="step-icon">
-              ✎
-            </div>
-
-            <h3>
-              Describe
-            </h3>
-
-            <p>
-              Introduce qué vendes, marca, estado, precio y
-              cualquier información importante.
-            </p>
-
-          </article>
-
-
-          <article class="step-card">
-
-            <span class="step-number">
-              02
-            </span>
-
-            <div class="step-icon">
-              ◉
-            </div>
-
-            <h3>
-              Añade fotos
-            </h3>
-
-            <p>
-              Sube fotografías del producto para que la IA pueda
-              utilizar información visual relevante.
-            </p>
-
-          </article>
-
-
-          <article class="step-card">
-
-            <span class="step-number">
-              03
-            </span>
-
-            <div class="step-icon">
-              ✦
-            </div>
-
-            <h3>
-              Genera
-            </h3>
-
-            <p>
-              VendeIA analiza los datos y crea un título,
-              descripción y palabras clave.
-            </p>
-
-          </article>
-
-
-          <article class="step-card">
-
-            <span class="step-number">
-              04
-            </span>
-
-            <div class="step-icon">
-              ✓
-            </div>
-
-            <h3>
-              Publica
-            </h3>
-
-            <p>
-              Copia el resultado y utilízalo en tu plataforma
-              de compraventa.
-            </p>
-
-          </article>
-
+          <article><span>1</span><h3>Cuéntanos qué vendes</h3><p>Completa solo la información que conoces.</p></article>
+          <article><span>2</span><h3>Adjunta tus fotos</h3><p>Hasta seis fotografías comprimidas automáticamente para mantener el proceso rápido.</p></article>
+          <article><span>3</span><h3>Genera y mejora</h3><p>Obtén anuncio, hashtags, respuestas, análisis visual y herramientas de precio.</p></article>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         GENERATOR
-    ==================================================== -->
-
-    <section
-      id="generador"
-      class="generator-section"
-    >
-
+    <section class="generator-section section-space" id="generador">
       <div class="container">
-
-        <div class="generator-intro">
-
-          <span class="section-kicker">
-            Generador
-          </span>
-
-          <h2>
-            Crea tu anuncio.
-          </h2>
-
-          <p>
-            Cuanta más información real proporciones, mejor podrá
-            VendeIA representar tu producto.
-          </p>
-
+        <div class="generator-header">
+          <div>
+            <div class="eyebrow">VENDEIA ENGINE</div>
+            <h2>Construye tu anuncio.</h2>
+            <p>Cuanta más información real aportes, mejor podrá ayudarte la IA.</p>
+          </div>
+          <div class="engine-badge"><span class="status-dot"></span> Motor conectado</div>
         </div>
 
-
-        <div class="workspace">
-
-          <!-- FORM PANEL -->
-
-          <div class="panel form-panel">
-
-            <div class="panel-header">
-
-              <div>
-                <span class="panel-kicker">
-                  PASO 1
-                </span>
-
-                <h3>
-                  Información del producto
-                </h3>
-              </div>
-
-              <span class="panel-status">
-                ● LISTO
-              </span>
-
+        <div class="generator-shell">
+          <form id="productForm" class="generator-form" novalidate>
+            <div class="form-section-title"><span>01</span><div><strong>Producto</strong><small>Información principal</small></div></div>
+            <div class="field full">
+              <label for="product">¿Qué estás vendiendo? <em>*</em></label>
+              <input id="product" name="product" type="text" maxlength="200" placeholder="Ej: iPhone 15 128 GB" autocomplete="off" required>
             </div>
 
-
-            <form
-              id="productForm"
-              novalidate
-            >
-
-              <div class="field-group">
-
-                <label for="product">
-                  ¿Qué estás vendiendo?
-                  <span>*</span>
-                </label>
-
-                <div class="field-help">
-                  Escribe el nombre principal del producto.
-                </div>
-
-                <input
-                  id="product"
-                  name="product"
-                  type="text"
-                  maxlength="200"
-                  autocomplete="off"
-                  placeholder="Ej. iPhone 15 Pro 256 GB"
-                  required
-                >
-
-              </div>
-
-
-              <div class="form-row">
-
-                <div class="field-group">
-
-                  <label for="platform">
-                    Plataforma
-                  </label>
-
-                  <select
-                    id="platform"
-                    name="platform"
-                  >
-
-                    <option value="general">
-                      General
-                    </option>
-
-                    <option value="wallapop">
-                      Wallapop
-                    </option>
-
-                    <option value="vinted">
-                      Vinted
-                    </option>
-
-                    <option value="facebook">
-                      Facebook Marketplace
-                    </option>
-
-                    <option value="ebay">
-                      eBay
-                    </option>
-
-                  </select>
-
-                </div>
-
-
-                <div class="field-group">
-
-                  <label for="goal">
-                    Objetivo
-                  </label>
-
-                  <select
-                    id="goal"
-                    name="goal"
-                  >
-
-                    <option value="balanced">
-                      Equilibrado
-                    </option>
-
-                    <option value="fast">
-                      Vender rápido
-                    </option>
-
-                    <option value="maximum">
-                      Máxima presentación
-                    </option>
-
-                  </select>
-
-                </div>
-
-              </div>
-
-
-              <div class="form-row">
-
-                <div class="field-group">
-
-                  <label for="category">
-                    Categoría
-                  </label>
-
-                  <select
-                    id="category"
-                    name="category"
-                  >
-
-                    <option value="">
-                      Seleccionar
-                    </option>
-
-                    <option value="electronica">
-                      Electrónica
-                    </option>
-
-                    <option value="moviles">
-                      Móviles
-                    </option>
-
-                    <option value="informatica">
-                      Informática
-                    </option>
-
-                    <option value="hogar">
-                      Hogar
-                    </option>
-
-                    <option value="electrodomesticos">
-                      Electrodomésticos
-                    </option>
-
-                    <option value="moda">
-                      Moda
-                    </option>
-
-                    <option value="deporte">
-                      Deporte
-                    </option>
-
-                    <option value="motor">
-                      Motor
-                    </option>
-
-                    <option value="coleccionismo">
-                      Coleccionismo
-                    </option>
-
-                    <option value="otros">
-                      Otros
-                    </option>
-
-                  </select>
-
-                </div>
-
-
-                <div class="field-group">
-
-                  <label for="brand">
-                    Marca
-                  </label>
-
-                  <input
-                    id="brand"
-                    name="brand"
-                    type="text"
-                    maxlength="100"
-                    placeholder="Ej. Apple"
-                  >
-
-                </div>
-
-              </div>
-
-
-              <div class="form-row">
-
-                <div class="field-group">
-
-                  <label for="condition">
-                    Estado
-                  </label>
-
-                  <select
-                    id="condition"
-                    name="condition"
-                  >
-
-                    <option value="">
-                      Seleccionar
-                    </option>
-
-                    <option value="nuevo">
-                      Nuevo
-                    </option>
-
-                    <option value="como nuevo">
-                      Como nuevo
-                    </option>
-
-                    <option value="muy buen estado">
-                      Muy buen estado
-                    </option>
-
-                    <option value="buen estado">
-                      Buen estado
-                    </option>
-
-                    <option value="aceptable">
-                      Aceptable
-                    </option>
-
-                    <option value="para reparar">
-                      Para reparar
-                    </option>
-
-                  </select>
-
-                </div>
-
-
-                <div class="field-group">
-
-                  <label for="price">
-                    Precio
-                  </label>
-
-                  <div class="price-input">
-
-                    <input
-                      id="price"
-                      name="price"
-                      type="text"
-                      inputmode="decimal"
-                      maxlength="30"
-                      placeholder="200"
-                    >
-
-                    <span>€</span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <!-- PHOTOS -->
-
-              <div class="field-group">
-
-                <div class="label-row">
-
-                  <label for="images">
-                    Fotografías
-                  </label>
-
-                  <span>
-                    Hasta 6
-                  </span>
-
-                </div>
-
-                <div class="field-help">
-                  Añade fotografías claras del producto.
-                  VendeIA podrá utilizarlas para entender mejor
-                  el artículo y su estado visible.
-                </div>
-
-
-                <div
-                  id="imageDropzone"
-                  class="image-dropzone"
-                  tabindex="0"
-                  role="button"
-                  aria-label="Añadir fotografías"
-                >
-
-                  <input
-                    id="images"
-                    name="images"
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    multiple
-                    hidden
-                  >
-
-                  <div class="upload-icon">
-                    +
-                  </div>
-
-                  <strong>
-                    Añade fotografías
-                  </strong>
-
-                  <span>
-                    Arrastra imágenes aquí o haz clic para
-                    seleccionarlas
-                  </span>
-
-                  <small>
-                    JPG, PNG o WebP · máximo 6 fotografías
-                  </small>
-
-                </div>
-
-
-                <div
-                  id="imagePreviewGrid"
-                  class="image-preview-grid"
-                  aria-live="polite"
-                ></div>
-
-              </div>
-
-
-              <!-- DETAILS -->
-
-              <div class="field-group">
-
-                <div class="label-row">
-
-                  <label for="details">
-                    Detalles adicionales
-                  </label>
-
-                  <span id="detailsCounter">
-                    0 / 5000
-                  </span>
-
-                </div>
-
-                <textarea
-                  id="details"
-                  name="details"
-                  maxlength="5000"
-                  placeholder="Cuéntanos todo lo que pueda ser importante: uso, accesorios, características, motivo de venta, medidas, defectos, documentación, etc."
-                ></textarea>
-
-                <div class="textarea-footer">
-
-                  <span>
-                    No inventaremos información que no hayas dado.
-                  </span>
-
-                  <span>
-                    5000 caracteres
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              <!-- SUBMIT -->
-
-              <button
-                id="generateButton"
-                type="submit"
-                class="button button-primary generate-button"
-              >
-
-                <span class="button-icon">
-                  ✦
-                </span>
-
-                <span class="button-text">
-                  Generar anuncio
-                </span>
-
-                <span class="button-arrow">
-                  →
-                </span>
-
+            <div class="field-grid two">
+              <div class="field"><label for="platform">Plataforma</label><select id="platform" name="platform"><option value="general">General</option><option value="wallapop">Wallapop</option><option value="vinted">Vinted</option><option value="facebook">Facebook Marketplace</option><option value="ebay">eBay</option></select></div>
+              <div class="field"><label for="goal">Objetivo</label><select id="goal" name="goal"><option value="balanced">Equilibrio</option><option value="fast">Vender rápido</option><option value="maximum">Máxima presentación</option></select></div>
+            </div>
+
+            <div class="field-grid two">
+              <div class="field"><label for="category">Categoría</label><select id="category" name="category"><option value="">Selecciona</option><option value="electronica">Electrónica</option><option value="moviles">Móviles</option><option value="informatica">Informática</option><option value="hogar">Hogar</option><option value="electrodomesticos">Electrodomésticos</option><option value="moda">Moda</option><option value="deporte">Deporte</option><option value="motor">Motor</option><option value="coleccionismo">Coleccionismo</option><option value="otros">Otros</option></select></div>
+              <div class="field"><label for="brand">Marca</label><input id="brand" name="brand" type="text" maxlength="150" placeholder="Ej: Apple"></div>
+            </div>
+
+            <div class="field-grid two">
+              <div class="field"><label for="condition">Estado</label><select id="condition" name="condition"><option value="">Selecciona</option><option value="nuevo">Nuevo</option><option value="como nuevo">Como nuevo</option><option value="muy buen estado">Muy buen estado</option><option value="buen estado">Buen estado</option><option value="aceptable">Aceptable</option><option value="para reparar">Para reparar</option></select></div>
+              <div class="field"><label for="price">Precio que quieres pedir (€)</label><input id="price" name="price" type="text" inputmode="decimal" maxlength="80" placeholder="Ej: 200"></div>
+            </div>
+
+            <div class="form-section-title media-title"><span>02</span><div><strong>Fotografías</strong><small>La IA también puede ver tu producto</small></div></div>
+            <div class="photo-uploader" id="photoUploader">
+              <input id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+              <button type="button" class="upload-zone" id="uploadButton" aria-label="Adjuntar fotografías">
+                <span class="upload-icon">＋</span>
+                <strong>Adjunta tus fotografías</strong>
+                <small>JPG, PNG o WebP · hasta 6 imágenes</small>
               </button>
+              <div class="image-preview-grid" id="imagePreviewGrid" aria-live="polite"></div>
+              <div class="upload-note" id="uploadNote">Las imágenes se comprimen en tu navegador antes de enviarse.</div>
+            </div>
 
+            <div class="form-section-title media-title"><span>03</span><div><strong>Detalles</strong><small>Lo que la IA necesita saber</small></div></div>
+            <div class="field full">
+              <label for="details">Detalles adicionales</label>
+              <textarea id="details" name="details" maxlength="5000" rows="7" placeholder="Cuéntame todo lo que sabes: tiempo de uso, accesorios, características, defectos, motivo de venta, ubicación, etc."></textarea>
+              <div class="field-meta"><span>Cuéntalo con tus palabras.</span><span id="detailsCounter">0 / 5000</span></div>
+            </div>
 
-              <p class="privacy-note">
-                Tu clave de OpenAI nunca se expone en el navegador.
-              </p>
+            <div class="form-actions">
+              <button id="generateButton" class="button button-primary button-large" type="submit"><span class="button-text">Generar anuncio completo</span><span class="button-spinner" aria-hidden="true"></span><span class="button-arrow">→</span></button>
+              <span class="form-hint">Incluye texto + hashtags + respuestas + recomendaciones fotográficas</span>
+            </div>
+          </form>
 
-            </form>
+          <div class="result-panel" id="resultPanel">
+            <div class="result-topbar">
+              <div><span class="eyebrow">RESULTADO</span><h3>Tu kit de venta</h3></div>
+              <span class="result-status" id="resultStatus">Listo</span>
+            </div>
 
+            <div class="state-card empty-state" id="emptyState">
+              <div class="state-icon">✦</div>
+              <h3>Tu anuncio aparecerá aquí</h3>
+              <p>Rellena los datos, añade fotos si las tienes y pulsa generar.</p>
+            </div>
+
+            <div class="state-card loading-state hidden" id="loadingState">
+              <div class="loader-orbit"><span></span></div>
+              <h3>Analizando tu producto…</h3>
+              <p>La IA está preparando tu contenido.</p>
+              <div class="loading-steps"><span>Procesando datos</span><span>Analizando fotos</span><span>Optimizando anuncio</span></div>
+            </div>
+
+            <div class="state-card error-state hidden" id="errorState">
+              <div class="state-icon error">!</div>
+              <h3>No se pudo completar</h3>
+              <p id="errorMessage">Ha ocurrido un error.</p>
+              <button class="button button-ghost" type="button" data-retry>Intentar de nuevo</button>
+            </div>
+
+            <div id="resultContent" class="result-content hidden">
+              <section class="result-block featured-result">
+                <div class="result-block-head"><div><span class="result-kicker">TÍTULO</span><h4 id="titleResult">—</h4></div><button class="copy-button" type="button" data-copy-target="titleResult">Copiar</button></div>
+              </section>
+
+              <section class="result-block">
+                <div class="result-block-head"><div><span class="result-kicker">DESCRIPCIÓN</span><h4>Lista para publicar</h4></div><button class="copy-button" type="button" data-copy-target="descriptionResult">Copiar</button></div>
+                <div class="result-text" id="descriptionResult"></div>
+              </section>
+
+              <section class="result-block">
+                <div class="result-block-head"><div><span class="result-kicker">PALABRAS CLAVE</span><h4>Descubribilidad</h4></div><button class="copy-button" type="button" data-copy-target="keywordsResult">Copiar</button></div>
+                <div class="keyword-list" id="keywordsResult"></div>
+              </section>
+
+              <section class="result-block tool-result-grid">
+                <div class="tool-card"><div class="tool-card-head"><span>⌁</span><div><strong>Hashtags</strong><small>Generados para tu anuncio</small></div></div><div id="hashtagsResult" class="chip-list"></div><button class="copy-button" type="button" id="copyHashtagsButton">Copiar hashtags</button></div>
+                <div class="tool-card score-card"><div class="tool-card-head"><span>◈</span><div><strong>Calidad del anuncio</strong><small id="qualitySummary">—</small></div></div><div class="score-ring" id="qualityScore"><span>0</span><small>/100</small></div></div>
+              </section>
+
+              <section class="result-block">
+                <div class="result-block-head"><div><span class="result-kicker">RESPUESTAS</span><h4>Asistente de comprador</h4></div></div>
+                <div id="buyerRepliesResult" class="reply-list"></div>
+                <div class="reply-generator"><input id="buyerQuestion" type="text" maxlength="1000" placeholder="Pega aquí la pregunta real del comprador…"><button class="button button-small button-primary" id="replyButton" type="button">Responder</button></div>
+                <div id="customReplyResult" class="custom-reply-result hidden"></div>
+              </section>
+
+              <section class="result-block action-grid">
+                <button class="feature-action" type="button" data-action="photo"><span>▧</span><div><strong>Analizar fotos</strong><small>Detecta mejoras y señales visuales</small></div><b>→</b></button>
+                <button class="feature-action" type="button" data-action="price"><span>€</span><div><strong>Estrategia de precio</strong><small>Consulta referencias públicas actuales</small></div><b>→</b></button>
+                <button class="feature-action" type="button" data-action="listing_analysis"><span>◎</span><div><strong>Auditar anuncio</strong><small>Encuentra puntos débiles antes de publicar</small></div><b>→</b></button>
+              </section>
+
+              <section class="result-block">
+                <div class="result-block-head"><div><span class="result-kicker">FOTOGRAFÍAS</span><h4>Cómo mejorar la presentación</h4></div></div>
+                <ul id="photoAdviceResult" class="bullet-list"></ul>
+              </section>
+
+              <section id="advancedResult" class="result-block advanced-result hidden"></section>
+
+              <section class="result-block copy-all-row"><button class="button button-primary" id="copyAllButton" type="button">Copiar anuncio completo</button></section>
+            </div>
           </div>
-
-
-          <!-- RESULT PANEL -->
-
-          <div class="panel result-panel">
-
-            <div class="panel-header">
-
-              <div>
-                <span class="panel-kicker">
-                  PASO 2
-                </span>
-
-                <h3>
-                  Tu anuncio
-                </h3>
-              </div>
-
-              <span
-                id="resultStatus"
-                class="panel-status"
-              >
-                ESPERANDO
-              </span>
-
-            </div>
-
-
-            <!-- EMPTY -->
-
-            <div
-              id="emptyState"
-              class="result-state"
-            >
-
-              <div class="state-icon">
-                ✦
-              </div>
-
-              <h3>
-                Tu anuncio aparecerá aquí
-              </h3>
-
-              <p>
-                Completa la información del producto y pulsa
-                “Generar anuncio”.
-              </p>
-
-              <div class="state-mini-list">
-
-                <span>
-                  ✓ Título optimizado
-                </span>
-
-                <span>
-                  ✓ Descripción profesional
-                </span>
-
-                <span>
-                  ✓ Palabras clave
-                </span>
-
-                <span>
-                  ✓ Análisis visual cuando añadas fotos
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <!-- LOADING -->
-
-            <div
-              id="loadingState"
-              class="result-state loading-state"
-              hidden
-            >
-
-              <div class="loader-orbit">
-                <div></div>
-              </div>
-
-              <h3>
-                Analizando tu producto...
-              </h3>
-
-              <p>
-                VendeIA está preparando tu anuncio.
-              </p>
-
-              <div class="loading-bar">
-                <span></span>
-              </div>
-
-            </div>
-
-
-            <!-- ERROR -->
-
-            <div
-              id="errorState"
-              class="result-state error-state"
-              hidden
-            >
-
-              <div class="state-icon error-icon">
-                !
-              </div>
-
-              <h3>
-                No hemos podido generar el anuncio
-              </h3>
-
-              <p id="errorMessage">
-                Se ha producido un error.
-              </p>
-
-              <button
-                id="retryButton"
-                type="button"
-                class="button button-secondary"
-              >
-                Intentar de nuevo
-              </button>
-
-            </div>
-
-
-            <!-- RESULT -->
-
-            <div
-              id="resultContent"
-              class="result-content"
-              hidden
-            >
-
-              <div class="result-block">
-
-                <div class="result-block-header">
-
-                  <span>
-                    TÍTULO
-                  </span>
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="titleResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-                <div
-                  id="titleResult"
-                  class="result-title"
-                ></div>
-
-              </div>
-
-
-              <div class="result-block">
-
-                <div class="result-block-header">
-
-                  <span>
-                    DESCRIPCIÓN
-                  </span>
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="descriptionResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-                <div
-                  id="descriptionResult"
-                  class="result-description"
-                ></div>
-
-              </div>
-
-
-              <div class="result-block">
-
-                <div class="result-block-header">
-
-                  <span>
-                    PALABRAS CLAVE
-                  </span>
-
-                  <button
-                    type="button"
-                    class="copy-button"
-                    data-copy-target="keywordsResult"
-                  >
-                    Copiar
-                  </button>
-
-                </div>
-
-                <div
-                  id="keywordsResult"
-                  class="result-keywords"
-                ></div>
-
-              </div>
-
-
-              <div
-                id="visualAnalysisBlock"
-                class="result-block visual-analysis-block"
-                hidden
-              >
-
-                <div class="result-block-header">
-
-                  <span>
-                    ANÁLISIS VISUAL
-                  </span>
-
-                </div>
-
-                <div
-                  id="visualAnalysisResult"
-                  class="result-description"
-                ></div>
-
-              </div>
-
-
-              <div class="result-actions">
-
-                <button
-                  id="copyAllButton"
-                  type="button"
-                  class="button button-primary"
-                >
-                  Copiar anuncio completo
-                </button>
-
-              </div>
-
-
-              <p class="result-disclaimer">
-                Revisa siempre el anuncio antes de publicarlo.
-                VendeIA trabaja con la información proporcionada
-                y con los elementos visibles en tus fotografías.
-              </p>
-
-            </div>
-
-          </div>
-
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         FEATURES
-    ==================================================== -->
-
-    <section
-      id="funciones"
-      class="features-section"
-    >
-
+    <section class="features section-space" id="funciones">
       <div class="container">
-
-        <div class="section-heading centered">
-
-          <span class="section-kicker">
-            Producto
-          </span>
-
-          <h2>
-            VendeIA empieza aquí.
-            Pero no termina aquí.
-          </h2>
-
-          <p>
-            Construimos la herramienta alrededor de las
-            necesidades reales de quien vende online.
-          </p>
-
+        <div class="section-heading centered"><div class="eyebrow">TODO EN UN SOLO LUGAR</div><h2>Las funciones importantes ya están aquí.</h2><p>VendeIA está construido para acompañarte desde la primera foto hasta la conversación con el comprador.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><span>01</span><h3>Anuncios con IA</h3><p>Títulos, descripciones y palabras clave adaptados a la plataforma.</p><strong>Disponible</strong></article>
+          <article class="feature-card"><span>02</span><h3>Hashtags inteligentes</h3><p>Etiquetas relevantes sin llenar el anuncio de spam.</p><strong>Disponible</strong></article>
+          <article class="feature-card"><span>03</span><h3>Estrategia de precio</h3><p>Referencias públicas y estrategia de negociación con contexto.</p><strong>Disponible</strong></article>
+          <article class="feature-card"><span>04</span><h3>Respuestas automáticas</h3><p>Responde dudas de compradores manteniendo tus datos reales.</p><strong>Disponible</strong></article>
+          <article class="feature-card"><span>05</span><h3>Análisis de anuncios</h3><p>Detecta información ausente, fricciones y oportunidades de mejora.</p><strong>Disponible</strong></article>
+          <article class="feature-card"><span>06</span><h3>Análisis de fotografías</h3><p>La IA examina la presentación visual y propone mejoras.</p><strong>Disponible</strong></article>
         </div>
-
-
-        <div class="features-grid">
-
-          <article class="feature-card featured-feature">
-
-            <div class="feature-icon">
-              ✦
-            </div>
-
-            <span class="feature-status">
-              DISPONIBLE
-            </span>
-
-            <h3>
-              Anuncios con IA
-            </h3>
-
-            <p>
-              Títulos, descripciones y palabras clave generados
-              a partir de tus datos.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              #
-            </div>
-
-            <span class="feature-status future">
-              PRÓXIMAMENTE
-            </span>
-
-            <h3>
-              Hashtags inteligentes
-            </h3>
-
-            <p>
-              Generación de etiquetas relevantes para mejorar
-              la organización y descubrimiento del anuncio.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              €
-            </div>
-
-            <span class="feature-status future">
-              PRÓXIMAMENTE
-            </span>
-
-            <h3>
-              Estrategia de precio
-            </h3>
-
-            <p>
-              Herramientas para ayudarte a estudiar el precio
-              y decidir una estrategia de venta.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              ↗
-            </div>
-
-            <span class="feature-status future">
-              PRÓXIMAMENTE
-            </span>
-
-            <h3>
-              Respuestas automáticas
-            </h3>
-
-            <p>
-              Respuestas preparadas para preguntas frecuentes
-              de compradores.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              ◫
-            </div>
-
-            <span class="feature-status future">
-              PRÓXIMAMENTE
-            </span>
-
-            <h3>
-              Análisis de anuncios
-            </h3>
-
-            <p>
-              Detecta oportunidades de mejora antes de publicar.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              ◉
-            </div>
-
-            <span class="feature-status">
-              NUEVO
-            </span>
-
-            <h3>
-              Análisis de fotografías
-            </h3>
-
-            <p>
-              VendeIA puede utilizar tus fotografías para
-              comprender mejor el producto y su presentación.
-            </p>
-
-          </article>
-
-        </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         VISION
-    ==================================================== -->
-
-    <section class="vision-section">
-
-      <div class="container vision-container">
-
-        <div class="vision-copy">
-
-          <span class="section-kicker">
-            La visión
-          </span>
-
-          <h2>
-            Un copiloto para vender online.
-          </h2>
-
-          <p>
-            La idea no es crear otro generador de textos.
-            Es construir una herramienta que acompañe al vendedor
-            desde el momento en que decide publicar hasta la
-            conversación con el comprador.
-          </p>
-
-        </div>
-
-
-        <div class="vision-flow">
-
-          <div class="vision-node active">
-            <span>
-              01
-            </span>
-            <strong>
-              Producto
-            </strong>
-          </div>
-
-          <div class="vision-connector"></div>
-
-          <div class="vision-node">
-            <span>
-              02
-            </span>
-            <strong>
-              Fotos
-            </strong>
-          </div>
-
-          <div class="vision-connector"></div>
-
-          <div class="vision-node">
-            <span>
-              03
-            </span>
-            <strong>
-              Anuncio
-            </strong>
-          </div>
-
-          <div class="vision-connector"></div>
-
-          <div class="vision-node">
-            <span>
-              04
-            </span>
-            <strong>
-              Precio
-            </strong>
-          </div>
-
-          <div class="vision-connector"></div>
-
-          <div class="vision-node">
-            <span>
-              05
-            </span>
-            <strong>
-              Venta
-            </strong>
-          </div>
-
-        </div>
-
+    <section class="vision section-space">
+      <div class="container vision-card">
+        <div><div class="eyebrow">VISIÓN</div><h2>El objetivo no es escribir por ti.<br>Es ayudarte a vender mejor.</h2></div>
+        <p>VendeIA empieza con anuncios y crece hacia una caja de herramientas completa para vendedores: análisis visual, precio, negociación, calidad y automatización.</p>
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         FAQ
-    ==================================================== -->
-
-    <section
-      id="faq"
-      class="faq-section"
-    >
-
-      <div class="container">
-
-        <div class="section-heading centered">
-
-          <span class="section-kicker">
-            FAQ
-          </span>
-
-          <h2>
-            Preguntas frecuentes.
-          </h2>
-
-        </div>
-
-
+    <section class="faq section-space" id="faq">
+      <div class="container narrow">
+        <div class="section-heading centered"><div class="eyebrow">FAQ</div><h2>Preguntas frecuentes.</h2></div>
         <div class="faq-list">
-
-          <details class="faq-item">
-
-            <summary>
-              ¿VendeIA inventa características?
-              <span>+</span>
-            </summary>
-
-            <p>
-              El sistema está diseñado para utilizar la
-              información proporcionada por el vendedor y los
-              elementos que pueda identificar visualmente.
-              Debes revisar siempre el anuncio antes de publicarlo.
-            </p>
-
-          </details>
-
-
-          <details class="faq-item">
-
-            <summary>
-              ¿Puedo subir fotografías?
-              <span>+</span>
-            </summary>
-
-            <p>
-              Sí. Puedes añadir hasta seis fotografías del
-              producto. Las imágenes se comprimen en el navegador
-              antes de enviarse para mantener el proceso ligero.
-            </p>
-
-          </details>
-
-
-          <details class="faq-item">
-
-            <summary>
-              ¿Qué plataformas son compatibles?
-              <span>+</span>
-            </summary>
-
-            <p>
-              La primera versión está preparada para generar
-              anuncios generales y adaptar el estilo a Wallapop,
-              Vinted, Facebook Marketplace y eBay.
-            </p>
-
-          </details>
-
-
-          <details class="faq-item">
-
-            <summary>
-              ¿Necesito saber de inteligencia artificial?
-              <span>+</span>
-            </summary>
-
-            <p>
-              No. La interfaz está diseñada para que únicamente
-              tengas que introducir la información de tu producto.
-            </p>
-
-          </details>
-
-
-          <details class="faq-item">
-
-            <summary>
-              ¿La fotografía sustituye a la información escrita?
-              <span>+</span>
-            </summary>
-
-            <p>
-              No. Las fotografías son una fuente adicional de
-              información. Los datos escritos por el vendedor
-              siguen siendo fundamentales.
-            </p>
-
-          </details>
-
+          <details><summary>¿VendeIA inventa características?</summary><p>No debería. El sistema está instruido para distinguir información aportada, observaciones visuales y datos que no puede confirmar.</p></details>
+          <details><summary>¿Puedo usar fotografías?</summary><p>Sí. Puedes adjuntar hasta seis imágenes JPG, PNG o WebP. El navegador las comprime antes de enviarlas para reducir el tamaño de la petición.</p></details>
+          <details><summary>¿El precio que recomienda es exacto?</summary><p>No. La herramienta utiliza referencias públicas y las convierte en orientación. Un precio publicado en Internet no demuestra por sí solo que un artículo se haya vendido a ese precio.</p></details>
+          <details><summary>¿VendeIA sustituye mi decisión?</summary><p>No. La herramienta genera información y propuestas para que tú decidas qué publicar, qué precio aceptar y cómo responder.</p></details>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- ===================================================
-         FINAL CTA
-    ==================================================== -->
-
-    <section class="final-cta-section">
-
-      <div class="container">
-
-        <div class="final-cta">
-
-          <div class="final-glow"></div>
-
-          <span class="section-kicker">
-            VendeIA
-          </span>
-
-          <h2>
-            Tu próximo anuncio puede empezar aquí.
-          </h2>
-
-          <p>
-            Introduce un producto y descubre cómo puede
-            transformarse en una publicación lista para revisar.
-          </p>
-
-          <a
-            href="#generador"
-            class="button button-primary button-large"
-          >
-            Crear anuncio
-            <span>→</span>
-          </a>
-
-        </div>
-
+    <section class="final-cta section-space">
+      <div class="container final-cta-card">
+        <div><div class="eyebrow">EMPIEZA AHORA</div><h2>Tu próximo anuncio puede empezar aquí.</h2></div>
+        <a class="button button-primary button-large" href="#generador">Crear anuncio <span>→</span></a>
       </div>
-
     </section>
-
   </main>
 
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
   <footer class="site-footer">
-
-    <div class="container footer-main">
-
-      <div class="footer-brand">
-
-        <a
-          href="#inicio"
-          class="brand"
-        >
-
-          <span class="brand-mark">
-            V
-          </span>
-
-          <span class="brand-name">
-            Vende<span>IA</span>
-          </span>
-
-        </a>
-
-        <p>
-          Inteligencia artificial para vender mejor online.
-        </p>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h4>
-          Producto
-        </h4>
-
-        <a href="#generador">
-          Generador
-        </a>
-
-        <a href="#funciones">
-          Funciones
-        </a>
-
-        <a href="#como-funciona">
-          Cómo funciona
-        </a>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h4>
-          Recursos
-        </h4>
-
-        <a href="#faq">
-          FAQ
-        </a>
-
-        <a href="#inicio">
-          Inicio
-        </a>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h4>
-          VendeIA
-        </h4>
-
-        <a href="#generador">
-          Empezar
-        </a>
-
-        <a href="#funciones">
-          Roadmap
-        </a>
-
-      </div>
-
+    <div class="container footer-inner">
+      <a class="brand" href="#top"><span class="brand-mark">V</span><span>Vende<span>IA</span></span></a>
+      <p>Herramientas de IA para vendedores online.</p>
+      <span>© <span id="currentYear"></span> VendeIA</span>
     </div>
-
-
-    <div class="container footer-bottom">
-
-      <span>
-        © 2026 VendeIA. Todos los derechos reservados.
-      </span>
-
-      <span>
-        Construido para vendedores.
-      </span>
-
-    </div>
-
   </footer>
 
-
-  <script
-    src="/js/app.js"
-    defer
-  ></script>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/js/app.js" defer></script>
 </body>
 </html>
